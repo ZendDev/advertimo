@@ -46,8 +46,8 @@ export default {
     })
   },
   login (email, pwd) {
-    return axios.post(process.env.VUE_APP_API_ROOT + '/user/authenticate', {
-      email,
+    return axios.post(process.env.VUE_APP_API_ROOT + '/user/login', {
+      username: email,
       password: pwd
     })
   },

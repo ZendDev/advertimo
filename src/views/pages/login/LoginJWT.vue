@@ -1,9 +1,9 @@
 <template>
   <div>
     <vs-input
-        v-validate="'required|email|min:3'"
+        v-validate="'required'"
         data-vv-validate-on="blur"
-        name="email"
+        name="text"
         icon-no-border
         icon="icon icon-user"
         icon-pack="feather"

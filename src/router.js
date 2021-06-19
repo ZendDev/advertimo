@@ -46,20 +46,10 @@ const router = new Router({
         {
           path: '/',
           redirect: '/ads-manager/users',
-          meta: {
-            middleware: [
-              authorization
-            ]
-          },
         },
         {
           path: '/ads-manager',
           redirect: '/ads-manager/users',
-          meta: {
-            middleware: [
-              authorization
-            ]
-          }
         },
         {
           path: '/ads-manager/users',
@@ -1448,7 +1438,7 @@ const router = new Router({
           }
         },
         {
-          path: '/pages/login',
+          path: '/login',
           name: 'page-login',
           component: () => import('@/views/pages/login/Login.vue'),
           meta: {

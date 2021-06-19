@@ -17,20 +17,20 @@ export default {
   loginJWT ({ commit }, payload) {
 
     return new Promise((resolve, reject) => {
-      jwt.login(payload.userDetails.email, payload.userDetails.password)
+      jwt.login(payload.username, payload.password)
         .then(response => {
- 
+          console.log(response.data.data)
           // If there's user data in response
-          if (response.data.userData) {
+          if (response.data.data) {
 
             // Set accessToken
-            localStorage.setItem('accessToken', response.data.accessToken)
+            localStorage.setItem('accessToken', response.data.data.jwtToken)
 
             // Update user details
-            commit('UPDATE_USER_INFO', response.data.userData, {root: true})
+            commit('UPDATE_USER_INFO', response.data.data, {root: true})
 
             // Set bearer token in axios
-            commit('SET_BEARER', response.data.accessToken)
+            commit('SET_BEARER', response.data.data.jwtToken)
 
             // Navigate User to homepage
             router.push(router.currentRoute.query.to || '/')
@@ -57,12 +57,13 @@ export default {
 
       jwt.registerUser(username, password, confirmPassword)
         .then(response => {
-          // Redirect User
-          router.push(router.currentRoute.query.to || '/')
 
-          // Update data in localStorage
-          localStorage.setItem('accessToken', response.data.accessToken)
-          commit('UPDATE_USER_INFO', response.data.userData, {root: true})
+          // // Redirect User
+          router.push('/login')
+
+          // // Update data in localStorage
+          // localStorage.setItem('accessToken', response.data.accessToken)
+          // commit('UPDATE_USER_INFO', response.data.userData, {root: true})
 
           resolve(response)
         })
