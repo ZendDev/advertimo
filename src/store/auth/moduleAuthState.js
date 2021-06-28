@@ -10,7 +10,7 @@
 
 import auth from '@/auth/authService'
 
-export default {
+export default { 
   isUserLoggedIn: () => {
     let isAuthenticated = false
 

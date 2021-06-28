@@ -59,6 +59,6 @@ export default {
     })
   },
   refreshToken () {
-    return axios.post('/api/auth/refresh-token', {accessToken: localStorage.getItem('accessToKen')})
+    return axios.post(process.env.VUE_APP_API_ROOT + '/user/refresh_token') 
   }
 }

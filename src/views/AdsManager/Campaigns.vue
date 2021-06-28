@@ -215,32 +215,32 @@ export default {
         'header: Slot'
       ],
       users: [
-        {
-          "name": 'Campaign new name',
-          "adid": '693209384685632',
-          "adAccount": 'Доминика Гончарук',
-          "account": 'raff 1',
-          "status": ['error', 'ban'],
-          "date": '24 February, 14:59',
-          "notes": null,
-          "impressions": 0,
-          "clicks": 0,
-          "results": 0,
-          "spend": '60 USD'
-        },
-        {
-          "name": 'Second campaign',
-          "adid": '693209384685632',
-          "adAccount": 'Влад Корешков',
-          "account": 'My own acc #1',
-          "status": ['warning', 'paused'],
-          "date": '24 February, 14:59',
-          "notes": null,
-          "impressions": 0,
-          "clicks": 0,
-          "results": 0,
-          "spend": '60 USD'
-        }
+        // {
+        //   "name": 'Campaign new name',
+        //   "adid": '693209384685632',
+        //   "adAccount": 'Доминика Гончарук',
+        //   "account": 'raff 1',
+        //   "status": ['error', 'ban'],
+        //   "date": '24 February, 14:59',
+        //   "notes": null,
+        //   "impressions": 0,
+        //   "clicks": 0,
+        //   "results": 0,
+        //   "spend": '60 USD'
+        // },
+        // {
+        //   "name": 'Second campaign',
+        //   "adid": '693209384685632',
+        //   "adAccount": 'Влад Корешков',
+        //   "account": 'My own acc #1',
+        //   "status": ['warning', 'paused'],
+        //   "date": '24 February, 14:59',
+        //   "notes": null,
+        //   "impressions": 0,
+        //   "clicks": 0,
+        //   "results": 0,
+        //   "spend": '60 USD'
+        // }
       ],
       submenu: [
         {
@@ -280,6 +280,13 @@ export default {
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
+    this.$http.get(process.env.VUE_APP_API_ROOT + '/campaigns', { 'headers': { Authorization: localStorage.accessToken } })
+    .then((response) => {
+        console.log(response)
+    }) 
+    .catch((error) => {
+        console.log(error)
+    })
   },
   methods: {
     userInfo(name, login){

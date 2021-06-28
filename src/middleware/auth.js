@@ -1,6 +1,6 @@
 import store from '@/store/store'
 export default function auth ({ next, store }){
-    if(store.state.auth.isUserLoggedIn()){
+    if(!localStorage.accessToken){
         return next({
            name: 'page-login'
         })

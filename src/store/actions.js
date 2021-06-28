@@ -6,13 +6,19 @@
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-
+import axios from '@/http/axios/index.js'
 const actions = {
 
   // /////////////////////////////////////////////
   // COMPONENTS
   // /////////////////////////////////////////////
-
+  accounts ({commit}){
+      axios.get(process.env.VUE_APP_API_ROOT + '/accounts', {  
+          headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+          } 
+      })
+  },
   // Vertical NavMenu
   updateVerticalNavMenuWidth ({ commit }, width) {
     commit('UPDATE_VERTICAL_NAV_MENU_WIDTH', width)

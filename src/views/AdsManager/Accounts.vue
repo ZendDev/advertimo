@@ -284,6 +284,7 @@ export default {
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
+    this.$store.dispatch('accounts')
   },
   methods: {
     userInfo(name, login){

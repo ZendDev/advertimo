@@ -243,66 +243,66 @@ export default {
         'header: Slot'
       ],
       users: [
-        {
-          "adaccount": 'Влад Корешков',
-          "facebookApi": true,
-          "notification": true,
-          "adbillings": true,
-          "time": 'GTM +3',
-          "adid": '693209384685632',
-          "account": 'My own acc #1',
-          "pixel": '120534079968052',
-          "billing": ['*3405', 'rus'],
-          "limit": '100 USD',
-          "status": ['success', 'active'],
-          "date": '5 June, 00:38',
-          "notes": null,
-          "impressions": 0,
-          "clicks": 0,
-          "results": 0,
-          "spend": '60 USD',
-          "proccent": 60
-        },
-        {
-          "adaccount": 'Лилия Эсаулова',
-          "facebookApi": true,
-          "notification": true,
-          "adbillings": true,
-          "time": 'GTM +3',
-          "adid": '693209384685632',
-          "account": 'My own acc #1',
-          "pixel": '120534079968052',
-          "billing": ['*3405', 'rus'],
-          "limit": '90 USD',
-          "status": ['error', 'error'],
-          "date": '5 June, 00:38',
-          "notes": null,
-          "impressions": 0,
-          "clicks": 0,
-          "results": 0,
-          "spend": '40 USD',
-          "proccent": 10
-        },
-        {
-          "adaccount": 'Юлия Ковалева',
-          "facebookApi": true,
-          "notification": true,
-          "adbillings": true,
-          "time": 'GTM +3',
-          "adid": '693209384685632',
-          "account": 'My own acc #1',
-          "pixel": '120534079968052',
-          "billing": ['*3405', 'rus'],
-          "limit": '100 USD',
-          "status": ['success', 'active'],
-          "date": '5 June, 00:38',
-          "notes": null,
-          "impressions": 0,
-          "clicks": 0,
-          "results": 0,
-          "spend": '60 USD',
-          "proccent": 80
-        }
+        // {
+        //   "adaccount": 'Влад Корешков',
+        //   "facebookApi": true,
+        //   "notification": true,
+        //   "adbillings": true,
+        //   "time": 'GTM +3',
+        //   "adid": '693209384685632',
+        //   "account": 'My own acc #1',
+        //   "pixel": '120534079968052',
+        //   "billing": ['*3405', 'rus'],
+        //   "limit": '100 USD',
+        //   "status": ['success', 'active'],
+        //   "date": '5 June, 00:38',
+        //   "notes": null,
+        //   "impressions": 0,
+        //   "clicks": 0,
+        //   "results": 0,
+        //   "spend": '60 USD',
+        //   "proccent": 60
+        // },
+        // {
+        //   "adaccount": 'Лилия Эсаулова',
+        //   "facebookApi": true,
+        //   "notification": true,
+        //   "adbillings": true,
+        //   "time": 'GTM +3',
+        //   "adid": '693209384685632',
+        //   "account": 'My own acc #1',
+        //   "pixel": '120534079968052',
+        //   "billing": ['*3405', 'rus'],
+        //   "limit": '90 USD',
+        //   "status": ['error', 'error'],
+        //   "date": '5 June, 00:38',
+        //   "notes": null,
+        //   "impressions": 0,
+        //   "clicks": 0,
+        //   "results": 0,
+        //   "spend": '40 USD',
+        //   "proccent": 10
+        // },
+        // {
+        //   "adaccount": 'Юлия Ковалева',
+        //   "facebookApi": true,
+        //   "notification": true,
+        //   "adbillings": true,
+        //   "time": 'GTM +3',
+        //   "adid": '693209384685632',
+        //   "account": 'My own acc #1',
+        //   "pixel": '120534079968052',
+        //   "billing": ['*3405', 'rus'],
+        //   "limit": '100 USD',
+        //   "status": ['success', 'active'],
+        //   "date": '5 June, 00:38',
+        //   "notes": null,
+        //   "impressions": 0,
+        //   "clicks": 0,
+        //   "results": 0,
+        //   "spend": '60 USD',
+        //   "proccent": 80
+        // }
       ],
       submenu: [
         {
@@ -342,6 +342,13 @@ export default {
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
+    this.$http.get(process.env.VUE_APP_API_ROOT + '/cabinets', { 'headers': {Authorization: localStorage.accessToken } })
+    .then((response) => {
+        
+    }) 
+    .catch((error) => {
+        console.log(error)
+    })  
   },
   methods: {
     userInfo(name, login){

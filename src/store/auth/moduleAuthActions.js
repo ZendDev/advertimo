@@ -25,7 +25,7 @@ export default {
 
             // Set accessToken
             localStorage.setItem('accessToken', response.data.data.jwtToken)
-
+ 
             // Update user details
             commit('UPDATE_USER_INFO', response.data.data, {root: true})
 

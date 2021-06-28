@@ -251,143 +251,150 @@ export default {
         }
       ],
       users: [
-        {
-          "id": 1,
-          "name": "admen",
-          "login": "admen",
-          "status": ['success', 'active'],
-          "role": "Administrator",
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 2,
-          "name": "John",
-          "login": "Due",
-          "status": ['error', 'error'],
-          "role": "Administrator",
-          "impressions": 1,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 3,
-          "name": "Leanne Graham",
-          "login": "Lee",
-          "status": ['warning', 'warning'],
-          "role": "Moderator",
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 1,
-          "name": "admen",
-          "login": "admen",
-          "status": ['success', 'active'],
-          "role": "Administrator",
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 2,
-          "name": "John",
-          "login": "Due",
-          "status": ['error', 'error'],
-          "role": "Administrator",
-          "impressions": 1,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 3,
-          "name": "Leanne Graham",
-          "login": "Lee",
-          "status": ['warning', 'warning'],
-          "role": "Moderator",
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 1,
-          "name": "admen",
-          "login": "admen",
-          "status": ['success', 'active'],
-          "role": "Administrator",
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 2,
-          "name": "John",
-          "login": "Due",
-          "status": ['error', 'error'],
-          "role": "Administrator",
-          "impressions": 1,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 3,
-          "name": "Leanne Graham",
-          "login": "Lee",
-          "status": ['warning', 'warning'],
-          "role": "Moderator",
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 1,
-          "name": "admen",
-          "login": "admen",
-          "status": ['success', 'active'],
-          "role": "Administrator",
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 2,
-          "name": "John",
-          "login": "Due",
-          "status": ['error', 'error'],
-          "role": "Administrator",
-          "impressions": 1,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 3,
-          "name": "Leanne Graham",
-          "login": "Lee",
-          "status": ['warning', 'warning'],
-          "role": "Moderator",
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        }
+        // {
+        //   "id": 1,
+        //   "name": "admen",
+        //   "login": "admen",
+        //   "status": ['success', 'active'],
+        //   "role": "Administrator",
+        //   "impressions": 0,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 2,
+        //   "name": "John",
+        //   "login": "Due",
+        //   "status": ['error', 'error'],
+        //   "role": "Administrator",
+        //   "impressions": 1,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 3,
+        //   "name": "Leanne Graham",
+        //   "login": "Lee",
+        //   "status": ['warning', 'warning'],
+        //   "role": "Moderator",
+        //   "impressions": 0,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 1,
+        //   "name": "admen",
+        //   "login": "admen",
+        //   "status": ['success', 'active'],
+        //   "role": "Administrator",
+        //   "impressions": 0,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 2,
+        //   "name": "John",
+        //   "login": "Due",
+        //   "status": ['error', 'error'],
+        //   "role": "Administrator",
+        //   "impressions": 1,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 3,
+        //   "name": "Leanne Graham",
+        //   "login": "Lee",
+        //   "status": ['warning', 'warning'],
+        //   "role": "Moderator",
+        //   "impressions": 0,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 1,
+        //   "name": "admen",
+        //   "login": "admen",
+        //   "status": ['success', 'active'],
+        //   "role": "Administrator",
+        //   "impressions": 0,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 2,
+        //   "name": "John",
+        //   "login": "Due",
+        //   "status": ['error', 'error'],
+        //   "role": "Administrator",
+        //   "impressions": 1,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 3,
+        //   "name": "Leanne Graham",
+        //   "login": "Lee",
+        //   "status": ['warning', 'warning'],
+        //   "role": "Moderator",
+        //   "impressions": 0,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 1,
+        //   "name": "admen",
+        //   "login": "admen",
+        //   "status": ['success', 'active'],
+        //   "role": "Administrator",
+        //   "impressions": 0,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 2,
+        //   "name": "John",
+        //   "login": "Due",
+        //   "status": ['error', 'error'],
+        //   "role": "Administrator",
+        //   "impressions": 1,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // },
+        // {
+        //   "id": 3,
+        //   "name": "Leanne Graham",
+        //   "login": "Lee",
+        //   "status": ['warning', 'warning'],
+        //   "role": "Moderator",
+        //   "impressions": 0,
+        //   "linkCliks": 0,
+        //   "results": 0,
+        //   "spend": "0 USD"
+        // }
       ]
     }
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
+    this.$http.get(process.env.VUE_APP_API_ROOT + '/accounts', { 'headers': { Authorization: localStorage.accessToken } })
+    .then((response) => {
+        console.log(response)
+    }) 
+    .catch((error) => {
+        console.log(error)
+    })
   },
   methods: {
     userInfo(name, login){

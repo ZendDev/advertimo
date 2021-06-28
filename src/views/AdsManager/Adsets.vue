@@ -221,20 +221,20 @@ export default {
         'header: Slot'
       ],
       users: [
-        {
-          "name": 'Сборник рекламы номер 1',
-          "adid": '693209384685632',
-          "campaign": 'Campaign new name',
-          "adAccount": 'Доминика Гончарук',
-          "account": 'raff 1',
-          "status": ['warning', 'pause'],
-          "date": '24 February, 14:59',
-          "notes": null,
-          "impressions": 0,
-          "clicks": 0,
-          "results": 0,
-          "spend": '60 USD'
-        }
+        // {
+        //   "name": 'Сборник рекламы номер 1',
+        //   "adid": '693209384685632',
+        //   "campaign": 'Campaign new name',
+        //   "adAccount": 'Доминика Гончарук',
+        //   "account": 'raff 1',
+        //   "status": ['warning', 'pause'],
+        //   "date": '24 February, 14:59',
+        //   "notes": null,
+        //   "impressions": 0,
+        //   "clicks": 0,
+        //   "results": 0,
+        //   "spend": '60 USD'
+        // }
       ],
       submenu: [
         {
@@ -274,6 +274,13 @@ export default {
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
+    this.$http.get(process.env.VUE_APP_API_ROOT + '/adsets', { 'headers': { Authorization: localStorage.accessToken } })
+    .then((response) => {
+        console.log(response)
+    }) 
+    .catch((error) => {
+        console.log(error)
+    })  
   },
   methods: {
     userInfo(name, login){

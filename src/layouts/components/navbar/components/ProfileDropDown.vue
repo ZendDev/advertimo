@@ -1,9 +1,9 @@
 <template>
-  <div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.displayName">
+  <div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.username">
 
     <div class="text-right leading-tight hidden sm:block">
-      <p class="font-semibold">{{ activeUserInfo.displayName }}</p>
-      <small>Available</small>
+      <p class="font-semibold">{{ activeUserInfo.username }}</p>
+      <small>{{ activeUserInfo.role }}</small>
     </div>
 
     <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">

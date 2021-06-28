@@ -193,21 +193,21 @@ export default {
         'header: Slot'
       ],
       users: [
-          {
-          "id": 1,
-          "name": 'bel onee',
-          "type": 'SOCKS5',
-          "host": '194.156.27.217',
-          "port": '53362',
-          "login": 'hcdKqGjxwV',
-          "password": 'sOtCeDIQou',
-          "extip": '-',
-          "account": 0,
-          "status": ['success', 'active'],
-          "accounts": 0,
-          "lastcheck": '17 May, 14:28',
-          "exp": '-'
-          }
+          // {
+          // "id": 1,
+          // "name": 'bel onee',
+          // "type": 'SOCKS5',
+          // "host": '194.156.27.217',
+          // "port": '53362',
+          // "login": 'hcdKqGjxwV',
+          // "password": 'sOtCeDIQou',
+          // "extip": '-',
+          // "account": 0,
+          // "status": ['success', 'active'],
+          // "accounts": 0,
+          // "lastcheck": '17 May, 14:28',
+          // "exp": '-'
+          // }
       ],
       submenu: [
 
@@ -216,6 +216,13 @@ export default {
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
+    this.$http.get(process.env.VUE_APP_API_ROOT + '/proxies', { 'headers': { Authorization: localStorage.accessToken } })
+    .then((response) => {
+        console.log(response)
+    }) 
+    .catch((error) => {
+        console.log(error)
+    })
   },
   methods: {
     userInfo(name, login){
