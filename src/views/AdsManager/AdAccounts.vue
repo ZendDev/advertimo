@@ -77,7 +77,7 @@
       </li>
     </ul>
   </div>
-  <vs-table multiple v-model="selected" pagination max-items="10" :data="users">
+  <vs-table multiple v-model="selected" pagination max-items="10" :data="$store.state.adaccounts">
 
     <template slot="thead">
       <vs-th sort-key="adaccount">Ad account</vs-th> 
@@ -94,7 +94,7 @@
 
         <vs-td :data="data[indextr].adaccount">
           <div class="flex align-center account-name">
-            <div class="name-user accname">{{ data[indextr].adaccount}}</div>
+            <div class="name-user accname">{{ data[indextr].businessCabName}}</div>
             <div class="accicons">
               <vx-tooltip color="primary" text="Facebook API log" position="bottom">
                 <vs-icon size="small" icon-pack="feather" icon="icon-book" color="rgb(115,103,240)" />
@@ -106,11 +106,11 @@
                 <vs-icon size="small" icon-pack="feather" icon="icon-file-text" color="rgb(115,103,240)" />
               </vx-tooltip>
               <vs-icon size="small" icon-pack="feather" icon="icon-clock" color="rgb(115,103,240)" />
-              {{ data[indextr].time }}
+              {{ data[indextr].timezoneOffsetHoursUtc }}
             </div>
-            <div class="name-user dataad">ID: {{ data[indextr].adid}}</div>
-            <div class="name-user dataad">Account: {{ data[indextr].account }}</div>
-            <div class="name-user dataad">Pixel: {{ data[indextr].pixel }}</div>
+            <div class="name-user dataad">ID: {{ data[indextr].cabinetId}}</div>
+            <div class="name-user dataad">Account: {{ data[indextr].account.name }}</div>
+            <div class="name-user dataad">Pixel: {{ data[indextr].pixels }}</div>
           </div>
         </vs-td>
 
@@ -118,23 +118,29 @@
           <div class="card-acc">
             <div class="card-number">
               <vs-icon size="small" icon-pack="feather" icon="icon-credit-card" color="rgb(115,103,240)" />
-              {{ data[indextr].billing[0] }}
-              <span :class="`lang-`+data[indextr].billing[1]" />
+              <template v-if="data[indextr].isAttachCard">
+                {{ data[indextr].billing[0] }}
+              </template>
+              <template v-else>
+                not card
+              </template>
+
+              <span :class="`lang-`+data[indextr].businessCountryCode" />
             </div>
             <div class="card-count">
-              0 / 2 USD
+              0 / 2 {{ data[indextr].currency }}
             </div>
           </div>
           <vs-progress :percent="data[indextr].proccent" color="success"></vs-progress>
           <div class="card-acc card-acc_bottom">
-            <span class="card-count">Spend: {{ data[indextr].spend }}</span>
+            <span class="card-count">Spend: 10</span>
             <span class="card-count">Limit: {{ data[indextr].limit }}</span>
           </div>
         </vs-td>
 
         <vs-td :data="data[indextr].status">
           <div class="flex">
-            <div :class="data[indextr].status[0]">{{ data[indextr].status[1] }}</div>
+            <div class="success">{{ data[indextr].accountStatus }}</div>
           </div>
           <span class="date-status">{{ data[indextr].date}}</span>
           <span @click="data[indextr].notes = ' '" v-if="!data[indextr].notes" class="acc-notes">notes</span>
@@ -144,19 +150,19 @@
         </vs-td>
 
         <vs-td :data="data[indextr].impressions">
-          {{ data[indextr].impressions }}
+          0
         </vs-td>
 
         <vs-td :data="data[indextr].clicks">
-          {{ data[indextr].clicks }}
+          0
         </vs-td>
 
         <vs-td :data="data[indextr].results">
-          {{ data[indextr].results }}
+          0
         </vs-td>
 
         <vs-td :data="data[indextr].spend">
-          {{ data[indextr].spend }}
+          0
         </vs-td>
       </vs-tr>
     </template>
@@ -242,68 +248,6 @@ export default {
         'tbody: Slot',
         'header: Slot'
       ],
-      users: [
-        // {
-        //   "adaccount": 'Влад Корешков',
-        //   "facebookApi": true,
-        //   "notification": true,
-        //   "adbillings": true,
-        //   "time": 'GTM +3',
-        //   "adid": '693209384685632',
-        //   "account": 'My own acc #1',
-        //   "pixel": '120534079968052',
-        //   "billing": ['*3405', 'rus'],
-        //   "limit": '100 USD',
-        //   "status": ['success', 'active'],
-        //   "date": '5 June, 00:38',
-        //   "notes": null,
-        //   "impressions": 0,
-        //   "clicks": 0,
-        //   "results": 0,
-        //   "spend": '60 USD',
-        //   "proccent": 60
-        // },
-        // {
-        //   "adaccount": 'Лилия Эсаулова',
-        //   "facebookApi": true,
-        //   "notification": true,
-        //   "adbillings": true,
-        //   "time": 'GTM +3',
-        //   "adid": '693209384685632',
-        //   "account": 'My own acc #1',
-        //   "pixel": '120534079968052',
-        //   "billing": ['*3405', 'rus'],
-        //   "limit": '90 USD',
-        //   "status": ['error', 'error'],
-        //   "date": '5 June, 00:38',
-        //   "notes": null,
-        //   "impressions": 0,
-        //   "clicks": 0,
-        //   "results": 0,
-        //   "spend": '40 USD',
-        //   "proccent": 10
-        // },
-        // {
-        //   "adaccount": 'Юлия Ковалева',
-        //   "facebookApi": true,
-        //   "notification": true,
-        //   "adbillings": true,
-        //   "time": 'GTM +3',
-        //   "adid": '693209384685632',
-        //   "account": 'My own acc #1',
-        //   "pixel": '120534079968052',
-        //   "billing": ['*3405', 'rus'],
-        //   "limit": '100 USD',
-        //   "status": ['success', 'active'],
-        //   "date": '5 June, 00:38',
-        //   "notes": null,
-        //   "impressions": 0,
-        //   "clicks": 0,
-        //   "results": 0,
-        //   "spend": '60 USD',
-        //   "proccent": 80
-        // }
-      ],
       submenu: [
         {
           name: 'Users',
@@ -342,13 +286,7 @@ export default {
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
-    this.$http.get(process.env.VUE_APP_API_ROOT + '/cabinets', { 'headers': {Authorization: localStorage.accessToken } })
-    .then((response) => {
-        
-    }) 
-    .catch((error) => {
-        console.log(error)
-    })  
+    this.$store.dispatch('adAccounts')
   },
   methods: {
     userInfo(name, login){
@@ -356,9 +294,6 @@ export default {
       this.user.name = name
       this.user.login = login
     },
-    validated(val){
-      console.log('sda')
-    }
   },
   components: {
       flatPickr

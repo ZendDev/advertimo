@@ -87,7 +87,12 @@ const state = {
   themePrimaryColor       : colors.primary,
   mode: false,
   windowWidth: null,
-  submenu: null
+  submenu: null,
+  accounts: [],
+  adaccounts: [],
+  campaigns: [],
+  adsets: [],
+  proxy: []
 }
 
 export default state

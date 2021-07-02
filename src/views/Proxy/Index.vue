@@ -34,7 +34,7 @@
       </li>
     </ul>
   </div>
-  <vs-table multiple v-model="selected" pagination max-items="10" :data="users">
+  <vs-table multiple v-model="selected" pagination max-items="10" :data="$store.state.proxy">
 
     <template slot="thead">
       <vs-th sort-key="id">ID</vs-th> 
@@ -47,9 +47,6 @@
       <vs-th sort-key="extip">External IP</vs-th>
       <vs-th sort-key="acccount">Accounts count</vs-th>
       <vs-th sort-key="status">Status</vs-th>
-      <vs-th sort-key="accounts">Accounts</vs-th>
-      <vs-th sort-key="lastcheck">Last check</vs-th>
-      <vs-th sort-key="exp">Expirity</vs-th>
     </template>
 
     <template slot-scope="{data}">
@@ -66,7 +63,7 @@
         </vs-td>
 
         <vs-td :data="data[indextr].type">
-          {{ data[indextr].type }}
+          {{ data[indextr].proxyType }}
         </vs-td>
 
         <vs-td :data="data[indextr].host">
@@ -78,7 +75,7 @@
         </vs-td>
 
         <vs-td :data="data[indextr].login">
-          {{ data[indextr].login }}
+          {{ data[indextr].username }}
         </vs-td>
 
         <vs-td :data="data[indextr].password">
@@ -86,28 +83,17 @@
         </vs-td>
 
         <vs-td :data="data[indextr].extip">
-          {{ data[indextr].extip }}
+          -
         </vs-td>
 
         <vs-td :data="data[indextr].account">
-          {{ data[indextr].account }}
+          {{ data[indextr].accountsCount }}
         </vs-td>
 
         <vs-td :data="data[indextr].status">
-          <div :class="data[indextr].status[0]">{{ data[indextr].status[1] }}</div>
+          <div class="success">ACTIVE</div>
         </vs-td>
 
-        <vs-td :data="data[indextr].accounts">
-          {{ data[indextr].accounts }}
-        </vs-td>
-
-        <vs-td :data="data[indextr].lastcheck">
-          {{ data[indextr].lastcheck }}
-        </vs-td>
-
-        <vs-td :data="data[indextr].exp">
-          {{ data[indextr].exp }}
-        </vs-td>
 
       </vs-tr>
     </template>
@@ -193,21 +179,21 @@ export default {
         'header: Slot'
       ],
       users: [
-          // {
-          // "id": 1,
-          // "name": 'bel onee',
-          // "type": 'SOCKS5',
-          // "host": '194.156.27.217',
-          // "port": '53362',
-          // "login": 'hcdKqGjxwV',
-          // "password": 'sOtCeDIQou',
-          // "extip": '-',
-          // "account": 0,
-          // "status": ['success', 'active'],
-          // "accounts": 0,
-          // "lastcheck": '17 May, 14:28',
-          // "exp": '-'
-          // }
+          {
+          "id": 1,
+          "name": 'bel onee',
+          "type": 'SOCKS5',
+          "host": '194.156.27.217',
+          "port": '53362',
+          "login": 'hcdKqGjxwV',
+          "password": 'sOtCeDIQou',
+          "extip": '-',
+          "account": 0,
+          "status": ['success', 'active'],
+          "accounts": 0,
+          "lastcheck": '17 May, 14:28',
+          "exp": '-'
+          }
       ],
       submenu: [
 
@@ -216,13 +202,7 @@ export default {
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
-    this.$http.get(process.env.VUE_APP_API_ROOT + '/proxies', { 'headers': { Authorization: localStorage.accessToken } })
-    .then((response) => {
-        console.log(response)
-    }) 
-    .catch((error) => {
-        console.log(error)
-    })
+    this.$store.dispatch('proxies')
   },
   methods: {
     userInfo(name, login){

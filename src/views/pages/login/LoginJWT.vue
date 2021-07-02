@@ -14,7 +14,7 @@
 
     <vs-input
         data-vv-validate-on="blur"
-        v-validate="'required|min:6|max:10'"
+        v-validate="'required'"
         type="password"
         name="password"
         icon-no-border
@@ -40,8 +40,8 @@
 export default {
   data () {
     return {
-      email: 'admin@admin.com',
-      password: 'adminadmin',
+      email: '',
+      password: '',
       checkbox_remember_me: false
     }
   },

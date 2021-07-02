@@ -85,7 +85,7 @@
       </li>
     </ul>
   </div>
-  <vs-table multiple v-model="selected" pagination max-items="10" :data="users">
+  <vs-table multiple v-model="selected" pagination max-items="10" :data="$store.state.adsets">
 
     <template slot="thead">
       <vs-th sort-key="campaign">Campaign</vs-th> 
@@ -102,18 +102,17 @@
         <vs-td :data="data[indextr].name">
           <div class="flex align-center account-name">
             <div class="name-user accname"><vs-icon size="small" icon-pack="feather" icon="icon-book" color="rgb(115,103,240)" />{{ data[indextr].name}}</div>
-            <div class="name-user dataad">ID: {{ data[indextr].adid}}</div>
-            <div class="name-user dataad">Campaign: {{ data[indextr].campaign}}</div>
-            <div class="name-user dataad">Ad account: {{ data[indextr].adAccount }}</div>
-            <div class="name-user dataad">Account: {{ data[indextr].account }}</div>
+            <div class="name-user dataad">ID: {{ data[indextr].adsetId}}</div>
+            <div class="name-user dataad">Campaign: {{ data[indextr].campaign.name}}</div>
+            <div class="name-user dataad">Ad account: {{ data[indextr].account.name }}</div>
+            <div class="name-user dataad">Account: {{ data[indextr].account.facebookName }}</div>
           </div>
         </vs-td>
 
         <vs-td :data="data[indextr].status">
           <div class="flex">
-            <div :class="data[indextr].status[0]">{{ data[indextr].status[1] }}</div>
+            <div class="success">{{ data[indextr].status }}</div>
           </div>
-          <span class="date-status"><vs-icon size="small" icon-pack="feather" icon="icon-clock" color="rgb(115,103,240)" /> {{ data[indextr].date}}</span>
           <span @click="data[indextr].notes = ' '" v-if="!data[indextr].notes" class="acc-notes">notes</span>
           <div v-else class="notes-wrap">
             <vs-input :disabled="false" :class="{'inputx': true, 'status-notes': true}" v-model="data[indextr].notes" />
@@ -121,19 +120,19 @@
         </vs-td>
 
         <vs-td :data="data[indextr].impressions">
-          {{ data[indextr].impressions }}
+          0
         </vs-td>
 
         <vs-td :data="data[indextr].clicks">
-          {{ data[indextr].clicks }}
+          0
         </vs-td>
 
         <vs-td :data="data[indextr].results">
-          {{ data[indextr].results }}
+          0
         </vs-td>
 
         <vs-td :data="data[indextr].spend">
-          {{ data[indextr].spend }}
+          0
         </vs-td>
 
       </vs-tr>
@@ -220,22 +219,6 @@ export default {
         'tbody: Slot',
         'header: Slot'
       ],
-      users: [
-        // {
-        //   "name": 'Сборник рекламы номер 1',
-        //   "adid": '693209384685632',
-        //   "campaign": 'Campaign new name',
-        //   "adAccount": 'Доминика Гончарук',
-        //   "account": 'raff 1',
-        //   "status": ['warning', 'pause'],
-        //   "date": '24 February, 14:59',
-        //   "notes": null,
-        //   "impressions": 0,
-        //   "clicks": 0,
-        //   "results": 0,
-        //   "spend": '60 USD'
-        // }
-      ],
       submenu: [
         {
           name: 'Users',
@@ -274,13 +257,7 @@ export default {
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
-    this.$http.get(process.env.VUE_APP_API_ROOT + '/adsets', { 'headers': { Authorization: localStorage.accessToken } })
-    .then((response) => {
-        console.log(response)
-    }) 
-    .catch((error) => {
-        console.log(error)
-    })  
+    this.$store.dispatch('adsets')
   },
   methods: {
     userInfo(name, login){

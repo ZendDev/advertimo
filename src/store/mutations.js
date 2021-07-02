@@ -11,10 +11,21 @@
 const mutations = {
 
 
-  // /////////////////////////////////////////////
-  // COMPONENTS
-  // /////////////////////////////////////////////
-
+  UPDATE_ACCOUNTS (state, res){
+    state.accounts = res.data.data.items
+  },
+  UPDATE_ADACCOUNTS (state, res){
+    state.adaccounts = res.data.data.items
+  },
+  UPDATE_CAMPAIGNS(state, res){
+    state.campaigns = res.data.data.items
+  },
+  UPDATE_ADSETS(state, res){
+    state.adsets = res.data.data.items
+  },
+  UPDATE_PROXY(state, res){
+    state.proxy = res.data.data.items
+  },
   // Vertical NavMenu
 
   TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE (state, value) {

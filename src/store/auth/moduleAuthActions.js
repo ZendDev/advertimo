@@ -19,7 +19,6 @@ export default {
     return new Promise((resolve, reject) => {
       jwt.login(payload.username, payload.password)
         .then(response => {
-          console.log(response.data.data)
           // If there's user data in response
           if (response.data.data) {
 

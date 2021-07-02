@@ -9,16 +9,40 @@
 import axios from '@/http/axios/index.js'
 const actions = {
 
-  // /////////////////////////////////////////////
-  // COMPONENTS
-  // /////////////////////////////////////////////
   accounts ({commit}){
       axios.get(process.env.VUE_APP_API_ROOT + '/accounts', {  
           headers: {
               'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
           } 
-      })
+      }).then(response => (
+        commit('UPDATE_ACCOUNTS', response) 
+      ));
   },
+  adAccounts({commit}){
+    axios.get(process.env.VUE_APP_API_ROOT + '/cabinets', { 'headers': {Authorization: localStorage.accessToken } })
+    .then((response) => {
+      commit('UPDATE_ADACCOUNTS', response)
+    })  
+  },
+  campaigns({commit}){
+    axios.get(process.env.VUE_APP_API_ROOT + '/campaigns', { 'headers': { Authorization: localStorage.accessToken } })
+    .then((response) => {
+      commit('UPDATE_CAMPAIGNS', response)
+    }) 
+  },
+  adsets({commit}){
+    axios.get(process.env.VUE_APP_API_ROOT + '/adsets', { 'headers': { Authorization: localStorage.accessToken } })
+    .then((response) => {
+      commit('UPDATE_ADSETS', response)
+    })  
+  },
+  proxies({commit}){
+    axios.get(process.env.VUE_APP_API_ROOT + '/proxies', { 'headers': { Authorization: localStorage.accessToken } })
+    .then((response) => {
+      commit('UPDATE_PROXY', response)
+    }) 
+  },
+
   // Vertical NavMenu
   updateVerticalNavMenuWidth ({ commit }, width) {
     commit('UPDATE_VERTICAL_NAV_MENU_WIDTH', width)

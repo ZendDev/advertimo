@@ -74,7 +74,7 @@
       </li>
     </ul>
   </div>
-  <vs-table multiple v-model="selected" pagination max-items="10" :data="users">
+  <vs-table multiple v-model="selected" pagination max-items="10" :data="$store.state.accounts">
 
     <template slot="thead">
       <vs-th sort-key="name">Account</vs-th> 
@@ -90,17 +90,17 @@
 
         <vs-td :data="data[indextr].name">
           <div class="flex align-center account-name accn">
-            [{{ data[indextr].id }}]<vs-icon size="small" icon-pack="feather" icon="icon-book" color="rgb(115,103,240)" />
+            <vs-icon size="small" icon-pack="feather" icon="icon-book" color="rgb(115,103,240)" />
             <div class="name-user"> {{ data[indextr].name }}</div>
           </div>
-          <div class="login-user">{{ data[indextr].owner }}</div>
-          <div class="login-user">Rules accepted: <vs-icon size="small" icon-pack="feather" :icon="data[indextr].rules ? 'icon-check' : 'icon-x'" :color="data[indextr].rules ? 'rgb(40,199,111)' : 'rgb(234,84,85)'" /></div>
+          <div class="login-user">{{ data[indextr].user.username }}</div>
+          <div class="login-user">Rules accepted: <vs-icon size="small" icon-pack="feather" :icon="data[indextr].rulesAccepted ? 'icon-check' : 'icon-x'" :color="data[indextr].rulesAccepted ? 'rgb(40,199,111)' : 'rgb(234,84,85)'" /></div>
           <!-- <div v-else class="login-user">Rules accepted: <vs-icon size="small" icon-pack="feather" icon="icon-x" color="rgb(40,199,111)" /></div> -->
         </vs-td>
 
         <vs-td :data="data[indextr].status">  
             <div class="flex">
-              <div :class="data[indextr].status[0]">{{ data[indextr].status[1] }}</div>
+              <div class="success">success</div>
             </div>
             <span @click="data[indextr].notes = ' '" v-if="!data[indextr].notes" class="acc-notes">notes</span>
             <div v-else class="notes-wrap">
@@ -109,19 +109,19 @@
         </vs-td>
 
         <vs-td :data="data[indextr].impressions">
-          {{ data[indextr].impressions }}
+          0
         </vs-td>
 
         <vs-td :data="data[indextr].linkCliks">
-          {{ data[indextr].linkCliks }}
+          0
         </vs-td>
 
         <vs-td :data="data[indextr].results">
-          {{ data[indextr].results }}
+          0
         </vs-td>
 
         <vs-td :data="data[indextr].spend">
-          {{ data[indextr].spend }}
+          0
         </vs-td>
 
       </vs-tr>
@@ -208,44 +208,7 @@ export default {
         'tbody: Slot',
         'header: Slot'
       ],
-      users: [
-        {
-          "id": 1,
-          "name": "Accm #1",
-          "owner": "admen",
-          "rules": true,
-          "status": ['success', 'active'],
-          "notes": null,
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 2,
-          "name": "ACCM #2",
-          "owner": "admen",
-          "rules": false,
-          "status": ['error', 'error'],
-          "notes": null,
-          "impressions": 1,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        },
-        {
-          "id": 3,
-          "name": "My own acc #1",
-          "owner": "admen",
-          "rules": true,
-          "status": ['warning', 'warning'],
-          "notes": null,
-          "impressions": 0,
-          "linkCliks": 0,
-          "results": 0,
-          "spend": "0 USD"
-        }
-      ],
+      users: [],
       submenu: [
         {
           name: 'Users',
@@ -285,15 +248,12 @@ export default {
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
     this.$store.dispatch('accounts')
-  },
+  }, 
   methods: {
     userInfo(name, login){
       this.userinfo = true
       this.user.name = name
       this.user.login = login
-    },
-    validated(val){
-      console.log('sda')
     }
   },
   components: {
