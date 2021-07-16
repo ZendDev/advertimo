@@ -2,7 +2,7 @@
 <div class="panel-page">
   <div class="users-page-panel">
     <ul>
-      <li>
+      <!-- <li>
         <vx-tooltip color="primary" text="Tags" position="bottom">
           <vs-button :disabled="count == 0" size="small" icon-pack="feather" icon="icon-tag" />
         </vx-tooltip>      
@@ -11,7 +11,7 @@
         <vx-tooltip color="primary" text="Share" position="bottom">
           <vs-button  @click="share = true" :disabled="count == 0" size="small" icon-pack="feather" icon="icon-share-2" />
         </vx-tooltip>
-      </li>
+      </li> -->
       <li>
         <vx-tooltip color="primary" text="Check tokens" position="bottom">
           <vs-button :disabled="count == 0" size="small" icon-pack="feather" icon="icon-code" />
@@ -26,15 +26,15 @@
           <vs-dropdown-menu>
 
             <vs-dropdown-item>Init personal ad account</vs-dropdown-item>
-            <vs-dropdown-item>Accept rules</vs-dropdown-item>
+            <vs-dropdown-item @click="acceptRules">Accept rules</vs-dropdown-item>
             <vs-dropdown-item>Change proxy</vs-dropdown-item>
             <vs-dropdown-item divider>Create fan page</vs-dropdown-item>
-            <vs-dropdown-item>Create BM</vs-dropdown-item>
-            <vs-dropdown-item divider>Move accounts to another user</vs-dropdown-item>
-            <vs-dropdown-item>Archive</vs-dropdown-item>
-            <vs-dropdown-item>Unarchive</vs-dropdown-item>
-            <vs-dropdown-item>Delete</vs-dropdown-item>
-            <vs-dropdown-item>Data export</vs-dropdown-item>
+            <!-- <vs-dropdown-item>Create BM</vs-dropdown-item>
+            <vs-dropdown-item divider>Move accounts to another user</vs-dropdown-item> -->
+            <!-- <vs-dropdown-item>Archive</vs-dropdown-item>
+            <vs-dropdown-item>Unarchive</vs-dropdown-item> -->
+            <vs-dropdown-item divider>Delete</vs-dropdown-item>
+            <!-- <vs-dropdown-item>Data export</vs-dropdown-item> -->
           </vs-dropdown-menu>
         </vs-dropdown>
       </li>
@@ -48,27 +48,27 @@
       <li>
         <vs-button size="small" icon-pack="feather" icon="icon-plus">ADD ACCOUNT</vs-button>
       </li>
-      <li>
+      <!-- <li>
         <vs-button size="small" icon-pack="feather" icon="icon-filter">FILTERS</vs-button>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <vx-tooltip color="primary" text="Columns" position="bottom">
           <vs-button size="small" icon-pack="feather" icon="icon-columns" />
         </vx-tooltip>
-      </li>
+      </li> -->
       <li>
         <vx-tooltip color="primary" text="Update FB data" position="bottom">
           <vs-button size="small" icon-pack="feather" icon="icon-refresh-ccw" />
         </vx-tooltip>
       </li>
-      <li>
+      <!-- <li>
         <vs-select autocomplete class="curr-select" v-model="select2">
           <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="(item,index) in options2" />
         </vs-select>
-      </li>
-      <li class="date">
+      </li> -->
+      <!-- <li class="date">
         <flat-pickr class="date-icons" :config="configdateTimePicker" v-model="date" placeholder="Choose date" />
-      </li>
+      </li> -->
       <li>
         <vs-input icon-pack="feather" icon="icon-search" placeholder="Search" v-model="value1" class="is-label-placeholder" />
       </li>
@@ -191,6 +191,7 @@ export default {
       ,
       deleted:false,
       selected: [],
+      selectedId: [],
       date: null,
       configdateTimePicker: {
         inline: false,
@@ -254,6 +255,9 @@ export default {
       this.userinfo = true
       this.user.name = name
       this.user.login = login
+    },
+    acceptRules(){
+      this.$store.dispatch('acc/acceptRules', this.selectedId)
     }
   },
   components: {
@@ -262,6 +266,7 @@ export default {
   watch: {
     selected: function (val) {
       this.count = val.length
+      this.selectedId = this.selected.map(account => account.id)
     }
   }
 }

@@ -22,6 +22,7 @@ const actions = {
     axios.get(process.env.VUE_APP_API_ROOT + '/cabinets', { 'headers': {Authorization: localStorage.accessToken } })
     .then((response) => {
       commit('UPDATE_ADACCOUNTS', response)
+      console.log(response)
     })  
   },
   campaigns({commit}){

@@ -2,11 +2,11 @@
 <div class="panel-page">
   <div class="users-page-panel">
     <ul>
-      <li>
+      <!-- <li>
         <vx-tooltip color="primary" text="Tags" position="bottom">
           <vs-button :disabled="count == 0" size="small" icon-pack="feather" icon="icon-tag" />
         </vx-tooltip>      
-      </li>
+      </li> -->
       <li>
         <vx-tooltip color="primary" text="Start" position="bottom">
           <vs-button :disabled="count == 0" size="small" icon-pack="feather" icon="icon-play" />

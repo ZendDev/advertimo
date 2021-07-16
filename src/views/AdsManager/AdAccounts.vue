@@ -2,16 +2,16 @@
 <div class="panel-page">
   <div class="users-page-panel">
     <ul>
-      <li>
+      <!-- <li>
         <vx-tooltip color="primary" text="Tags" position="bottom">
           <vs-button :disabled="count == 0" size="small" icon-pack="feather" icon="icon-tag" />
         </vx-tooltip>      
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <vx-tooltip color="primary" text="Archive" position="bottom">
           <vs-button :disabled="count == 0" size="small" icon-pack="feather" icon="icon-archive" />
         </vx-tooltip>
-      </li>
+      </li> -->
       <li>
         
         <vs-dropdown :disabled="count == 0" vs-trigger-click>
@@ -96,9 +96,7 @@
           <div class="flex align-center account-name">
             <div class="name-user accname">{{ data[indextr].businessCabName}}</div>
             <div class="accicons">
-              <vx-tooltip color="primary" text="Facebook API log" position="bottom">
-                <vs-icon size="small" icon-pack="feather" icon="icon-book" color="rgb(115,103,240)" />
-              </vx-tooltip>
+
               <vx-tooltip color="primary" text="Notification are enabled" position="bottom">
                 <vs-icon size="small" icon-pack="feather" icon="icon-bell" color="rgb(115,103,240)" />
               </vx-tooltip>
