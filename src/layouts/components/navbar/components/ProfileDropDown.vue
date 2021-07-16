@@ -65,8 +65,6 @@
 </template>
 
 <script>
-
-
 export default {
   data () {
     return {
@@ -80,22 +78,11 @@ export default {
   },
   methods: {
     logout () {
-
-      // if user is logged in via auth0
-      if (this.$auth.profile) this.$auth.logOut()
-
-      // If JWT login
-      if (localStorage.getItem('accessToken')) {
-        localStorage.removeItem('accessToken')
-        this.$router.push('/pages/login').catch(() => {})
-      }
-
       // Change role on logout. Same value as initialRole of acj.js
       this.$acl.change('admin')
-      localStorage.removeItem('userInfo')
-
+      localStorage.removeItem('accessToken')
       // This is just for demo Purpose. If user clicks on logout -> redirect
-      this.$router.push('/pages/login').catch(() => {})
+      this.$router.push('/login').catch(() => {})
     }
   }
 }
