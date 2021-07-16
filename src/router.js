@@ -1,22 +1,3 @@
-/*=========================================================================================
-  File Name: router.js
-  Description: Routes for vue-router. Lazy loading is enabled.
-  Object Strucutre:
-                    path => router path
-                    name => router name
-                    component(lazy loading) => component to load
-                    meta : {
-                      rule => which user can have access (ACL)
-                      breadcrumb => Add breadcrumb to specific page
-                      pageTitle => Display title besides breadcrumb
-                    }
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
-
 import Vue from 'vue'
 import Router from 'vue-router'
 import auth from '@/auth/authService'
@@ -101,7 +82,7 @@ const router = new Router({
         },
         {
           path: '/ads-manager/ad-accounts',
-          name: 'bms',
+          name: 'adaccounts',
           component: () => import('./views/AdsManager/AdAccounts.vue'),
           meta: {
             rule: 'editor',
@@ -113,7 +94,7 @@ const router = new Router({
         },
         {
           path: '/ads-manager/campaigns',
-          name: 'bms',
+          name: 'campaingns',
           component: () => import('./views/AdsManager/Campaigns.vue'),
           meta: {
             rule: 'editor',
@@ -236,7 +217,7 @@ const router = new Router({
         },
         {
           path: '/news',
-          name: 'proxy',
+          name: 'news',
           component: () => import('./views/News/List.vue'), 
           meta: {
             rule: 'editor',
@@ -259,89 +240,41 @@ const router = new Router({
         // PAGES
         // =============================================================================
         {
-          path: '/callback',
-          name: 'auth-callback',
-          component: () => import('@/views/Callback.vue'),
-          meta: {
-            rule: 'editor'
-          }
-        },
-        {
           path: '/login',
           name: 'page-login',
-          component: () => import('@/views/pages/login/Login.vue'),
+          component: () => import('@/views/Login/Login.vue'),
           meta: {
             rule: 'editor'
           }
         },
         {
-          path: '/pages/register',
+          path: '/register',
           name: 'page-register',
-          component: () => import('@/views/pages/register/Register.vue'),
+          component: () => import('@/views/Register/Register.vue'),
           meta: {
             rule: 'editor'
           }
         },
         {
-          path: '/pages/forgot-password',
+          path: '/forgot-password',
           name: 'page-forgot-password',
-          component: () => import('@/views/pages/ForgotPassword.vue'),
+          component: () => import('@/views/ForgotPassword.vue'),
           meta: {
             rule: 'editor'
           }
         },
         {
-          path: '/pages/reset-password',
+          path: '/reset-password',
           name: 'page-reset-password',
-          component: () => import('@/views/pages/ResetPassword.vue'),
+          component: () => import('@/views/ResetPassword.vue'),
           meta: {
             rule: 'editor'
           }
         },
         {
-          path: '/pages/lock-screen',
-          name: 'page-lock-screen',
-          component: () => import('@/views/pages/LockScreen.vue'),
-          meta: {
-            rule: 'editor'
-          }
-        },
-        {
-          path: '/pages/comingsoon',
-          name: 'page-coming-soon',
-          component: () => import('@/views/pages/ComingSoon.vue'),
-          meta: {
-            rule: 'editor'
-          }
-        },
-        {
-          path: '/pages/error-404',
+          path: '/error-404',
           name: 'page-error-404',
-          component: () => import('@/views/pages/Error404.vue'),
-          meta: {
-            rule: 'editor'
-          }
-        },
-        {
-          path: '/pages/error-500',
-          name: 'page-error-500',
-          component: () => import('@/views/pages/Error500.vue'),
-          meta: {
-            rule: 'editor'
-          }
-        },
-        {
-          path: '/pages/not-authorized',
-          name: 'page-not-authorized',
-          component: () => import('@/views/pages/NotAuthorized.vue'),
-          meta: {
-            rule: 'editor'
-          }
-        },
-        {
-          path: '/pages/maintenance',
-          name: 'page-maintenance',
-          component: () => import('@/views/pages/Maintenance.vue'),
+          component: () => import('@/views/Error404.vue'),
           meta: {
             rule: 'editor'
           }
@@ -351,7 +284,7 @@ const router = new Router({
     // Redirect to 404 page, if no match found
     {
       path: '*',
-      redirect: '/pages/error-404'
+      redirect: '/error-404'
     }
   ]
 })

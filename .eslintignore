@@ -1,3 +1,4 @@
+src/*
 src/assets/*
 src/fake-db/*
 src/layouts/components/vx-tooltip/VxTooltip.vue
