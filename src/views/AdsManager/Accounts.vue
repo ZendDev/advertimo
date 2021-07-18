@@ -26,7 +26,7 @@
           <vs-dropdown-menu>
 
             <vs-dropdown-item>Init personal ad account</vs-dropdown-item>
-            <vs-dropdown-item @click="acceptRules">Accept rules</vs-dropdown-item>
+            <vs-dropdown-item :disabled="!$store.state.acc.acceptrules" @click="acceptRules">Accept rules</vs-dropdown-item>
             <vs-dropdown-item>Change proxy</vs-dropdown-item>
             <vs-dropdown-item divider>Create fan page</vs-dropdown-item>
             <!-- <vs-dropdown-item>Create BM</vs-dropdown-item>
@@ -46,7 +46,7 @@
     </ul>
     <ul>
       <li>
-        <vs-button size="small" icon-pack="feather" icon="icon-plus">ADD ACCOUNT</vs-button>
+        <vs-button @click="popupCreate = true; tabs = 0" size="small" icon-pack="feather" icon="icon-plus">ADD ACCOUNT</vs-button>
       </li>
       <!-- <li>
         <vs-button size="small" icon-pack="feather" icon="icon-filter">FILTERS</vs-button>
@@ -70,7 +70,7 @@
         <flat-pickr class="date-icons" :config="configdateTimePicker" v-model="date" placeholder="Choose date" />
       </li> -->
       <li>
-        <vs-input icon-pack="feather" icon="icon-search" placeholder="Search" v-model="value1" class="is-label-placeholder" />
+        <vs-input icon-pack="feather" icon="icon-search" placeholder="Search" v-model="search" class="is-label-placeholder" />
       </li>
     </ul>
   </div>
@@ -127,79 +127,121 @@
       </vs-tr>
     </template>
   </vs-table>
-  <vs-popup classContent="popup-example" :title="`Edit user [${user.login}]`" :active.sync="userinfo">
-    <div class="centerx labelx">
-      <vs-input icon-pack="feather" icon="icon-at-sign" label-placeholder="Login" v-model="user.login" />
-    </div>
-    <div class="centerx labelx">
-      <vs-input icon-pack="feather" icon="icon-user" label-placeholder="Display name" v-model="user.name" />
-    </div>
-    <div class="centerx labelx">
-        <vs-switch v-model="changePass" />
-        <label>Change password</label>
-    </div> 
-    <template v-if="changePass">
-      <div class="centerx labelx">
-        <vs-input type="password" val-icon-pack="feather" val-icon-success="icon-check" :success="user.confirm == user.password && user.password !== ''" icon-pack="feather" icon="icon-unlock" label-placeholder="New password" v-model="user.password" />
-      </div>
-      <div class="centerx labelx">
-        <vs-input type="password" val-icon-pack="feather" val-icon-danger="icon-x" :danger="user.confirm !== user.password && user.confirm !== ''" val-icon-success="icon-check" :success="user.confirm == user.password && user.confirm !== ''" icon-pack="feather" icon="icon-lock" label-placeholder="Confirm password" v-model="user.confirm" />
-      </div>
-    </template>
-    <div class="modal-btn">
-      <vs-button color="danger" type="flat">Close</vs-button>
-      <vs-button color="success" type="flat">Save</vs-button>
-    </div>
-  </vs-popup>
-  <vs-popup classContent="share-acc" title="Share multiple accounts" :active.sync="share">
-    <ul class="centerx">
-      <li>
-        <vs-radio v-model="radios1" vs-value="1">Add permissions</vs-radio>
-      </li>
-      <li>
-        <vs-radio v-model="radios1" vs-value="2">Remove permissions</vs-radio>
-      </li>
-    </ul>
-    <div class="modal-btn">
-      <vs-button color="danger" type="flat">Close</vs-button>
-      <vs-button color="success" type="flat">Save</vs-button>
-    </div>
+  <vs-popup fullscreen title="Добавить аккаунт" :active.sync="popupCreate">
+    <vs-tabs v-model="tabs" alignment="center">
+      <vs-tab label="Single Add">
+        <div class="con-tab-ejemplo">
+          <div class="vx-row">
+            <div class="vx-col w-full md:w-1/2 mb-base">
+              <div class="centerx">
+                <vs-input class="inputx w-full" placeholder="Name" label="Name" v-model="add.name"/>
+              </div>
+              <div class="centerx mt-base">
+                <vs-textarea label="Access token" v-model="add.accessToken" />
+              </div>
+            </div>
+            <div class="vx-col w-full md:w-1/2 mb-base">
+              <div class="centerx flex align-center mt-base">
+                <vs-switch v-model="add.useragent">
+                  <span slot="on">On</span>
+                  <span slot="off">Off</span>
+                </vs-switch>
+                <label class="label">Useragent</label>
+              </div>
+              <div v-if="add.useragent" class="centerx mt-base">
+                <vs-input class="inputx w-full" placeholder="Useragent" v-model="add.useragentData"/>
+              </div>
+              <div class="centerx flex align-center mt-base">
+                <vs-switch v-model="add.proxy">
+                  <span slot="on">On</span>
+                  <span slot="off">Off</span>
+                </vs-switch>
+                <label class="label">Proxy</label>
+              </div>
+              <div v-if="add.proxy" class="centerx">
+                <div class="vx-row">
+                  <div class="vx-col w-full md:w-1/2 mb-base">
+                    <div class="centerx mt-base">
+                      <v-select v-model="proxySelected" placeholder="Existing Proxy" :options="$store.state.proxy" />
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Name" v-model="add.proxyData.name"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Host" v-model="add.proxyData.host"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Login" v-model="add.proxyData.login"/>
+                    </div>
+                  </div>
+                  <div class="vx-col w-full md:w-1/2 mb-base">
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Quick input" v-model="add.proxyData.quickInput"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Type" v-model="add.proxyData.type"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Port" v-model="add.proxyData.port"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Password" v-model="add.proxyData.password"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-btn">
+            <vs-button color="success">Add</vs-button>
+          </div>
+        </div>
+      </vs-tab>
+      <vs-tab label="Bulk Add">
+        <div class="con-tab-ejemplo">
+          Service
+        </div>
+      </vs-tab>
+      <vs-tab label="Login / Password">
+        <div class="con-tab-ejemplo">
+          login
+        </div>
+      </vs-tab>
+    </vs-tabs>
   </vs-popup>
 </div>
 </template>
 
 <script>
-import flatPickr from 'vue-flatpickr-component';
-import 'flatpickr/dist/flatpickr.css';
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
+import vSelect from 'vue-select'
+import { Progress } from '@/helpers/helpers'
 export default {
   data() {
     return {
-      radios1: '1',
-      value1:'',
-      addUser: false,
-      share: false,
-      select2:2,
-      userinfo: false,
-      changePass: false,
-      user: 
-        {
+      search: '',
+      popupCreate: false,
+      proxySelected: null,
+      tabs: 2,
+      add:{
+        name: '',
+        accessToken: '',
+        useragent: true,
+        useragentData: navigator.userAgent,
+        proxy: false,
+        proxyData: {
           name: '',
+          host: '',
           login: '',
           password: '',
-          confirm: ''
+          quickInput: '',
+          type: '',
+          port: ''
         }
-      ,
-      deleted:false,
+      },
       selected: [],
       selectedId: [],
-      date: null,
-      configdateTimePicker: {
-        inline: false,
-      },
-      options2:[
-        {text: 'USD', value: 1},
-        {text: 'RUB', value: 2}
-      ],
       count: 0,
       'tableList': [
         'vs-th: Component',
@@ -209,7 +251,6 @@ export default {
         'tbody: Slot',
         'header: Slot'
       ],
-      users: [],
       submenu: [
         {
           name: 'Users',
@@ -249,6 +290,9 @@ export default {
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
     this.$store.dispatch('accounts')
+    this.$store.dispatch('proxies') 
+    const hello = new Progress()
+    //console.log(hello.recursive(arr))
   }, 
   methods: {
     userInfo(name, login){
@@ -261,12 +305,22 @@ export default {
     }
   },
   components: {
-      flatPickr
+      flatPickr,
+      'v-select': vSelect,
   },
   watch: {
     selected: function (val) {
       this.count = val.length
       this.selectedId = this.selected.map(account => account.id)
+    },
+    proxySelected: function (val){
+      console.log(val)
+      this.add.proxyData.name = val.name
+      this.add.proxyData.host = val.host
+      this.add.proxyData.login = val.username
+      this.add.proxyData.type = val.proxyType
+      this.add.proxyData.port = val.port
+      this.add.proxyData.password = val.password
     }
   }
 }

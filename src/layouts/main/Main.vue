@@ -122,6 +122,15 @@
             </div>
           </div>
         </div>
+        <template v-if="$store.state.acc.process">
+          <div v-for="(process, index) in getProcess" :key="index" class="progress-task" :style="{bottom: 90 * index + 30 + 'px'}">
+              <div class="progress-task__title">
+                <span>{{ process.type }}</span>
+                <span>{{ process.complete }} из {{ process.total }}</span>
+              </div>
+              <vs-progress :percent="process.complete * 100 / process.total" color="rgb(255, 255, 255)"></vs-progress>
+          </div>
+        </template>
       </div>
       <the-footer />
     </div>
@@ -141,7 +150,7 @@ import themeConfig         from '@/../themeConfig.js'
 import VNavMenu            from '@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue'
 
 const VxTour = () => import('@/components/VxTour.vue')
-
+import { mapGetters } from 'vuex';
 export default {
   components: {
     BackToTop,
@@ -214,6 +223,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('acc',[
+      'getProcess',
+    ]),
     bodyOverlay () { return this.$store.state.bodyOverlay },
     contentAreaClass () {
       if (this.mainLayoutType === 'vertical') {

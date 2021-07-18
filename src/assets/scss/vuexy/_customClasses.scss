@@ -944,3 +944,37 @@ th .sort-th, th .vs-table-text{
 .comments-content{
   margin-top: 20px;
 }
+
+.label{
+  font-size: 13px;
+  display: block;
+  margin-left: 5px;
+  line-height: 21px;
+}
+
+
+.progress-task{
+  max-width: 300px;
+  width:100%;
+  background: rgba(var(--vs-primary), 1);
+  border-radius: 5px;
+  height: 70px;
+  padding: 10px;
+  position: fixed;
+  right:30px;
+  bottom:30px;
+  z-index: 999;
+  &__title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    span{
+      color:#FFF;
+      font-size: 14px;
+      display: block;
+      &:first-child{
+        font-weight: 500;
+      }
+    }
+  }
+}
