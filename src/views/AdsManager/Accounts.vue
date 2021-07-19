@@ -26,7 +26,7 @@
           <vs-dropdown-menu>
 
             <vs-dropdown-item>Init personal ad account</vs-dropdown-item>
-            <vs-dropdown-item :disabled="!$store.state.acc.acceptrules" @click="acceptRules">Accept rules</vs-dropdown-item>
+            <vs-dropdown-item @click="acceptRules">Accept rules</vs-dropdown-item>
             <vs-dropdown-item>Change proxy</vs-dropdown-item>
             <vs-dropdown-item divider>Create fan page</vs-dropdown-item>
             <!-- <vs-dropdown-item>Create BM</vs-dropdown-item>
@@ -93,18 +93,25 @@
             <vs-icon size="small" icon-pack="feather" icon="icon-book" color="rgb(115,103,240)" />
             <div class="name-user"> {{ data[indextr].name }}</div>
           </div>
-          <div class="login-user">{{ data[indextr].user.username }}</div>
-          <div class="login-user">Rules accepted: <vs-icon size="small" icon-pack="feather" :icon="data[indextr].rulesAccepted ? 'icon-check' : 'icon-x'" :color="data[indextr].rulesAccepted ? 'rgb(40,199,111)' : 'rgb(234,84,85)'" /></div>
-          <!-- <div v-else class="login-user">Rules accepted: <vs-icon size="small" icon-pack="feather" icon="icon-x" color="rgb(40,199,111)" /></div> -->
+          <div class="login-user">Owner: {{ data[indextr].user.username }}</div>
+          <div class="login-user">
+            Rules accepted: 
+            <template v-if="data[indextr].activeTasks > 0">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: rgb(255, 255, 255); display: block; shape-rendering: auto;" width="20px" height="20px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                  <path d="M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50" fill="#7367f0" stroke="none">
+                  <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" keyTimes="0;1" values="0 50 51;360 50 51"></animateTransform>
+                  </path>
+                </svg>
+            </template>
+            <template v-else>
+              <vs-icon size="small" icon-pack="feather" :icon="data[indextr].rulesAccepted ? 'icon-check' : 'icon-x'" :color="data[indextr].rulesAccepted ? 'rgb(40,199,111)' : 'rgb(234,84,85)'" />
+            </template>
+          </div>
         </vs-td>
 
         <vs-td :data="data[indextr].status">  
             <div class="flex">
               <div class="success">success</div>
-            </div>
-            <span @click="data[indextr].notes = ' '" v-if="!data[indextr].notes" class="acc-notes">notes</span>
-            <div v-else class="notes-wrap">
-              <vs-input :disabled="false" @change="validated" :class="{'inputx': true, 'status-notes': true}" v-model="data[indextr].notes" />
             </div>
         </vs-td>
 
@@ -216,7 +223,6 @@
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 import vSelect from 'vue-select'
-import { Progress } from '@/helpers/helpers'
 export default {
   data() {
     return {
@@ -290,9 +296,7 @@ export default {
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
     this.$store.dispatch('accounts')
-    this.$store.dispatch('proxies') 
-    const hello = new Progress()
-    //console.log(hello.recursive(arr))
+    this.$store.dispatch('proxies')
   }, 
   methods: {
     userInfo(name, login){
@@ -302,6 +306,11 @@ export default {
     },
     acceptRules(){
       this.$store.dispatch('acc/acceptRules', this.selectedId)
+      this.selected = []
+    },
+    loading(id){
+
+     //console.log(this.$store.state.acc.process.status.find(item => item.accountId == id))
     }
   },
   components: {

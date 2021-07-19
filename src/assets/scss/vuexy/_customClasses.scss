@@ -978,3 +978,14 @@ th .sort-th, th .vs-table-text{
     }
   }
 }
+
+.loading-spinner{
+  width:30px;
+  height:30px;
+  position: relative;
+}
+
+.vs-con-loading__container{
+  width:35px;
+  height:35px;
+}

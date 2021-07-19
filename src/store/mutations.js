@@ -13,6 +13,7 @@ const mutations = {
 
   UPDATE_ACCOUNTS (state, res){
     state.accounts = res.data.data.items
+    console.log(res)
   },
   UPDATE_ADACCOUNTS (state, res){
     state.adaccounts = res.data.data.items

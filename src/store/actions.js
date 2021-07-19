@@ -15,7 +15,7 @@ const actions = {
               'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
           } 
       }).then(response => (
-        commit('UPDATE_ACCOUNTS', response) 
+        commit('UPDATE_ACCOUNTS', response)
       ));
   },
   adAccounts({commit}){

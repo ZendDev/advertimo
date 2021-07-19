@@ -28,11 +28,15 @@ export class Progress {
         var data = response.data.data
         var waiting =  data.filter(item => item.status == "Waiting")
         var complete = data.filter(item => item.status == "Completed")
+
         if(Object.keys(waiting).length > 0){
             setTimeout(() => this.recursive(guids, count), 1000)
             store.commit('acc/UPDATE_PROCESS', [Object.keys(complete).length, Object.keys(data).length, true, count ])
+            store.dispatch('accounts')
         } else {
+            store.commit('acc/UPDATE_PROCESS', [Object.keys(data).length, Object.keys(data).length, true, count])
             setTimeout(() => store.commit('acc/UPDATE_PROCESS', [Object.keys(data).length, Object.keys(data).length, false, count]), 500)
+            store.dispatch('accounts')
         }
     }
 }

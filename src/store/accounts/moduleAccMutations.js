@@ -6,5 +6,8 @@ export default {
         state.process[obj[3]].complete = obj[0]
         state.process[obj[3]].total = obj[1]
         state.process[obj[3]].visible = obj[2]
+    },
+    UPDATE_PROCESS_STATUS(state, obj){
+        state.status = obj
     }
 }
