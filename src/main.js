@@ -17,7 +17,8 @@ import 'material-icons/iconfont/material-icons.css' //Material Icons
 import 'vuesax/dist/vuesax.css' // Vuesax
 Vue.use(Vuesax)
 
-
+import Notifications from 'vue-notification'
+Vue.use(Notifications)
 // axios
 import axios from './axios.js'
 Vue.prototype.$http = axios

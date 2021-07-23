@@ -10,6 +10,7 @@
 
 <template>
   <div id="app" :class="vueAppClasses">
+    <notifications/>
     <router-view @setAppClasses="setAppClasses" />
   </div>
 </template>

@@ -14,7 +14,7 @@
       </li> -->
       <li>
         <vx-tooltip color="primary" text="Check tokens" position="bottom">
-          <vs-button :disabled="count == 0" size="small" icon-pack="feather" icon="icon-code" />
+          <vs-button @click="task('AccountId', 'Me', 'Check Tokens')" :disabled="count == 0" size="small" icon-pack="feather" icon="icon-code" />
         </vx-tooltip>
       </li>
       <li>
@@ -25,15 +25,15 @@
     
           <vs-dropdown-menu>
 
-            <vs-dropdown-item>Init personal ad account</vs-dropdown-item>
-            <vs-dropdown-item @click="acceptRules">Accept rules</vs-dropdown-item>
-            <vs-dropdown-item>Change proxy</vs-dropdown-item>
+            <vs-dropdown-item @click="task('AccountId', 'InitializeCab', 'Init Personal Ad Account')">Init personal ad account</vs-dropdown-item>
+            <vs-dropdown-item @click="task('AccountId', 'AcceptRules', 'Accept Rules')">Accept rules</vs-dropdown-item>
+            <vs-dropdown-item @click="popupProxy = true">Change proxy</vs-dropdown-item>
             <vs-dropdown-item divider>Create fan page</vs-dropdown-item>
             <!-- <vs-dropdown-item>Create BM</vs-dropdown-item>
             <vs-dropdown-item divider>Move accounts to another user</vs-dropdown-item> -->
             <!-- <vs-dropdown-item>Archive</vs-dropdown-item>
             <vs-dropdown-item>Unarchive</vs-dropdown-item> -->
-            <vs-dropdown-item divider>Delete</vs-dropdown-item>
+            <vs-dropdown-item divider @click="deleteAcc">Delete</vs-dropdown-item>
             <!-- <vs-dropdown-item>Data export</vs-dropdown-item> -->
           </vs-dropdown-menu>
         </vs-dropdown>
@@ -89,10 +89,11 @@
       <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
         <vs-td :data="data[indextr].name">
-          <div class="flex align-center account-name accn">
+          <div @click="editAcc(data[indextr])" class="flex align-center account-name accn">
             <vs-icon size="small" icon-pack="feather" icon="icon-book" color="rgb(115,103,240)" />
             <div class="name-user"> {{ data[indextr].name }}</div>
           </div>
+          <div v-if="data[indextr].facebookId === null" class="error-data">No FB ID!</div>
           <div class="login-user">Owner: {{ data[indextr].user.username }}</div>
           <div class="login-user">
             Rules accepted: 
@@ -111,7 +112,7 @@
 
         <vs-td :data="data[indextr].status">  
             <div class="flex">
-              <div class="success">success</div>
+              <div class="success">{{ data[indextr].accountStatus }}</div>
             </div>
         </vs-td>
 
@@ -159,40 +160,40 @@
                 <vs-input class="inputx w-full" placeholder="Useragent" v-model="add.useragentData"/>
               </div>
               <div class="centerx flex align-center mt-base">
-                <vs-switch v-model="add.proxy">
+                <vs-switch v-model="add.proxyCheck">
                   <span slot="on">On</span>
                   <span slot="off">Off</span>
                 </vs-switch>
                 <label class="label">Proxy</label>
               </div>
-              <div v-if="add.proxy" class="centerx">
+              <div v-if="add.proxyCheck" class="centerx">
                 <div class="vx-row">
                   <div class="vx-col w-full md:w-1/2 mb-base">
                     <div class="centerx mt-base">
                       <v-select v-model="proxySelected" placeholder="Existing Proxy" :options="$store.state.proxy" />
                     </div>
                     <div class="centerx mt-base">
-                      <vs-input class="inputx w-full" placeholder="Name" v-model="add.proxyData.name"/>
+                      <vs-input class="inputx w-full" placeholder="Name" v-model="add.proxy.name"/>
                     </div>
                     <div class="centerx mt-base">
-                      <vs-input class="inputx w-full" placeholder="Host" v-model="add.proxyData.host"/>
+                      <vs-input class="inputx w-full" placeholder="Host" v-model="add.proxy.host"/>
                     </div>
                     <div class="centerx mt-base">
-                      <vs-input class="inputx w-full" placeholder="Login" v-model="add.proxyData.login"/>
+                      <vs-input class="inputx w-full" placeholder="Login" v-model="add.proxy.login"/>
                     </div>
                   </div>
                   <div class="vx-col w-full md:w-1/2 mb-base">
                     <div class="centerx mt-base">
-                      <vs-input class="inputx w-full" placeholder="Quick input" v-model="add.proxyData.quickInput"/>
+                      <vs-input class="inputx w-full" placeholder="Quick input" v-model="add.proxy.quickInput"/>
                     </div>
                     <div class="centerx mt-base">
-                      <vs-input class="inputx w-full" placeholder="Type" v-model="add.proxyData.type"/>
+                      <vs-input class="inputx w-full" placeholder="Type" v-model="add.proxy.type"/>
                     </div>
                     <div class="centerx mt-base">
-                      <vs-input class="inputx w-full" placeholder="Port" v-model="add.proxyData.port"/>
+                      <vs-input class="inputx w-full" placeholder="Port" v-model="add.proxy.port"/>
                     </div>
                     <div class="centerx mt-base">
-                      <vs-input class="inputx w-full" placeholder="Password" v-model="add.proxyData.password"/>
+                      <vs-input class="inputx w-full" placeholder="Password" v-model="add.proxy.password"/>
                     </div>
                   </div>
                 </div>
@@ -216,6 +217,97 @@
       </vs-tab>
     </vs-tabs>
   </vs-popup>
+  <vs-popup fullscreen title="Edit Account" :active.sync="popupEdit">
+        <div class="con-tab-ejemplo">
+          <div class="vx-row">
+            <div class="vx-col w-full md:w-1/2 mb-base">
+              <div class="centerx">
+                <vs-input class="inputx w-full" placeholder="Name" label="Name" v-model="add.name"/>
+              </div>
+              <div class="centerx mt-base">
+                <vs-textarea label="Access token" v-model="add.accessToken" />
+              </div>
+            </div>
+            <div class="vx-col w-full md:w-1/2 mb-base">
+              <div class="centerx mt-base">
+                <vs-input class="inputx w-full" placeholder="Useragent" v-model="add.userAgent"/>
+              </div>
+              <div class="centerx">
+                <div class="vx-row">
+                  <div class="vx-col w-full md:w-1/2 mb-base">
+                    <div class="centerx mt-base">
+                      <v-select v-model="proxySelected" placeholder="Existing Proxy" :options="$store.state.proxy" />
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Name" v-model="add.proxy.name"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Host" v-model="add.proxy.host"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Login" v-model="add.proxy.login"/>
+                    </div>
+                  </div>
+                  <div class="vx-col w-full md:w-1/2 mb-base">
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Quick input" v-model="add.proxy.quickInput"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Type" v-model="add.proxy.type"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Port" v-model="add.proxy.port"/>
+                    </div>
+                    <div class="centerx mt-base">
+                      <vs-input class="inputx w-full" placeholder="Password" v-model="add.proxy.password"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-btn">
+            <vs-button @click="updateAcc" color="success">Save</vs-button>
+          </div>
+        </div>
+  </vs-popup>
+  <vs-popup title="Change Proxy" :active.sync="popupProxy">
+    <div class="centerx">
+      <div class="vx-row">
+        <div class="vx-col w-full md:w-1/2 mb-base">
+          <div class="centerx mt-base">
+            <v-select v-model="proxySelected" placeholder="Existing Proxy" :options="$store.state.proxy" />
+          </div>
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Name" v-model="add.proxy.name"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Host" v-model="add.proxy.host"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Login" v-model="add.proxy.login"/>
+          </div>
+        </div>
+        <div class="vx-col w-full md:w-1/2 mb-base">
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Quick input" v-model="add.proxy.quickInput"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Type" v-model="add.proxy.type"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Port" v-model="add.proxy.port"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Password" v-model="add.proxy.password"/>
+          </div>
+        </div>
+          <div class="modal-btn">
+            <vs-button @click="UpdateCab" color="success">Update</vs-button>
+          </div>
+      </div>
+    </div>
+  </vs-popup>
 </div>
 </template>
 
@@ -228,15 +320,17 @@ export default {
     return {
       search: '',
       popupCreate: false,
+      popupProxy: false,
       proxySelected: null,
+      popupEdit: false,
       tabs: 2,
       add:{
         name: '',
         accessToken: '',
         useragent: true,
         useragentData: navigator.userAgent,
-        proxy: false,
-        proxyData: {
+        proxyChack: false,
+        proxy: {
           name: '',
           host: '',
           login: '',
@@ -303,15 +397,30 @@ export default {
       this.userinfo = true
       this.user.name = name
       this.user.login = login
+    },  
+    editAcc(data){
+      this.add = data
+      this.popupEdit = true
     },
-    acceptRules(){
-      this.$store.dispatch('acc/acceptRules', this.selectedId)
-      this.selected = []
+    deleteAcc(){
+      this.$store.dispatch('acc/deleteAcc', this.selectedId)
     },
-    loading(id){
-
-     //console.log(this.$store.state.acc.process.status.find(item => item.accountId == id))
-    }
+    UpdateCab(){
+      this.popupProxy = false
+    },
+    updateAcc(){
+      this.$store.dispatch('acc/updateAcc', this.add)
+      this.popupEdit = false
+    },
+    task(idtype, type, title){
+      this.$store.dispatch('acc/task', {
+          selectedId: this.selectedId,
+          idtype,      
+          type,
+          title
+      })
+      this.selected = []     
+    },
   },
   components: {
       flatPickr,
@@ -324,12 +433,12 @@ export default {
     },
     proxySelected: function (val){
       console.log(val)
-      this.add.proxyData.name = val.name
-      this.add.proxyData.host = val.host
-      this.add.proxyData.login = val.username
-      this.add.proxyData.type = val.proxyType
-      this.add.proxyData.port = val.port
-      this.add.proxyData.password = val.password
+      this.add.proxy.name = val.name
+      this.add.proxy.host = val.host
+      this.add.proxy.login = val.username
+      this.add.proxy.type = val.proxyType
+      this.add.proxy.port = val.port
+      this.add.proxy.password = val.password
     }
   }
 }

@@ -234,22 +234,7 @@ export default {
         'header: Slot'
       ],
       users: [
-        {
-          "name": 'Сборник рекламы номер 1',
-          "adid": '693209384685632',
-          "campaign": 'Campaign new name',
-          "adAccount": 'Доминика Гончарук',
-          "creativeid": '6932093846856',
-          "adset": 'Сборник рекламы номер 1',
-          "account": 'raff 1',
-          "status": ['warning', 'pause'],
-          "date": '24 February, 14:59',
-          "notes": null,
-          "impressions": 0,
-          "clicks": 0,
-          "results": 0,
-          "spend": '60 USD'
-        }
+
       ],
       submenu: [
         {
@@ -296,9 +281,6 @@ export default {
       this.user.name = name
       this.user.login = login
     },
-    validated(val){
-      console.log('sda')
-    }
   },
   components: {
       flatPickr
@@ -306,6 +288,7 @@ export default {
   watch: {
     selected: function (val) {
       this.count = val.length
+      this.selectedId = this.selected.map(account => account.id)
     }
   }
 }

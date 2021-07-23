@@ -20,23 +20,15 @@
     
           <vs-dropdown-menu>
 
-            <vs-dropdown-item> Option 1 </vs-dropdown-item>
-            <vs-dropdown-item> Option 2 </vs-dropdown-item>
-
-            <vs-dropdown-group>
-
-              <vs-dropdown-item> Option 1 </vs-dropdown-item>
-              <vs-dropdown-item> Option 2 </vs-dropdown-item>
-
-              <vs-dropdown-group>
-
-                <vs-dropdown-item> sub Options 1 </vs-dropdown-item>
-                <vs-dropdown-item> sub Options 2 </vs-dropdown-item>
-
-              </vs-dropdown-group>
-            </vs-dropdown-group>
-
-            <vs-dropdown-item divider> Option 3 </vs-dropdown-item>
+            <vs-dropdown-item @click="popupCard = true">Attach bank card</vs-dropdown-item>
+            <vs-dropdown-item @click="popupCountry = true">Change billing country</vs-dropdown-item>
+            <vs-dropdown-item @click="changeName">Rename</vs-dropdown-item>
+            <vs-dropdown-item @click="task('CabId', 'UpdateCab', 'Create Pixel', [])" divider>Create pixel</vs-dropdown-item>
+            <!-- <vs-dropdown-item>Create BM</vs-dropdown-item>
+            <vs-dropdown-item divider>Move accounts to another user</vs-dropdown-item> -->
+            <!-- <vs-dropdown-item>Archive</vs-dropdown-item>
+            <vs-dropdown-item>Unarchive</vs-dropdown-item> -->
+            <!-- <vs-dropdown-item>Data export</vs-dropdown-item> -->
           </vs-dropdown-menu>
         </vs-dropdown>
       </li>
@@ -47,31 +39,31 @@
       </li>
     </ul>
     <ul>
-      <li>
+      <!-- <li>
         <vs-switch v-model="deleted" />
         <label>Only selected</label>        
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <vs-button size="small" icon-pack="feather" icon="icon-filter">FILTERS</vs-button>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <vx-tooltip color="primary" text="Columns" position="bottom">
           <vs-button size="small" icon-pack="feather" icon="icon-columns" />
         </vx-tooltip>
-      </li>
+      </li> -->
       <li>
         <vx-tooltip color="primary" text="Update FB data" position="bottom">
           <vs-button size="small" icon-pack="feather" icon="icon-refresh-ccw" />
         </vx-tooltip>
       </li>
-      <li>
+      <!-- <li>
         <vs-select autocomplete class="curr-select" v-model="select2">
           <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="(item,index) in options2" />
         </vs-select>
       </li>
       <li class="date">
         <flat-pickr class="date-icons" :config="configdateTimePicker" v-model="date" placeholder="Choose date" />
-      </li>
+      </li> -->
       <li>
         <vs-input icon-pack="feather" icon="icon-search" placeholder="Search" v-model="value1" class="is-label-placeholder" />
       </li>
@@ -165,42 +157,55 @@
       </vs-tr>
     </template>
   </vs-table>
-  <vs-popup classContent="popup-example" :title="`Edit user [${user.login}]`" :active.sync="userinfo">
-    <div class="centerx labelx">
-      <vs-input icon-pack="feather" icon="icon-at-sign" label-placeholder="Login" v-model="user.login" />
-    </div>
-    <div class="centerx labelx">
-      <vs-input icon-pack="feather" icon="icon-user" label-placeholder="Display name" v-model="user.name" />
-    </div>
-    <div class="centerx labelx">
-        <vs-switch v-model="changePass" />
-        <label>Change password</label>
-    </div> 
-    <template v-if="changePass">
-      <div class="centerx labelx">
-        <vs-input type="password" val-icon-pack="feather" val-icon-success="icon-check" :success="user.confirm == user.password && user.password !== ''" icon-pack="feather" icon="icon-unlock" label-placeholder="New password" v-model="user.password" />
+  <vs-popup title="Attach Card" :active.sync="popupCard">
+    <div class="centerx">
+      <div class="vx-row">
+        <div class="vx-col w-full md:full mb-base">
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Card Number" v-model="addCard.CardNumber"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Card Expiry Month" v-model="addCard.CardExpiryMonth"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Card Expiry Year" v-model="addCard.CardExpiryYear"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Card CVC" v-model="addCard.CardCsc"/>
+          </div>
+        </div>
+        <div class="modal-btn">
+          <vs-button @click="task('CabId', 'AttachCard', 'Attach Card', addCard);popupCard = false" color="success">Update</vs-button>
+        </div>
       </div>
-      <div class="centerx labelx">
-        <vs-input type="password" val-icon-pack="feather" val-icon-danger="icon-x" :danger="user.confirm !== user.password && user.confirm !== ''" val-icon-success="icon-check" :success="user.confirm == user.password && user.confirm !== ''" icon-pack="feather" icon="icon-lock" label-placeholder="Confirm password" v-model="user.confirm" />
-      </div>
-    </template>
-    <div class="modal-btn">
-      <vs-button color="danger" type="flat">Close</vs-button>
-      <vs-button color="success" type="flat">Save</vs-button>
     </div>
   </vs-popup>
-  <vs-popup classContent="share-acc" title="Share multiple accounts" :active.sync="share">
-    <ul class="centerx">
-      <li>
-        <vs-radio v-model="radios1" vs-value="1">Add permissions</vs-radio>
-      </li>
-      <li>
-        <vs-radio v-model="radios1" vs-value="2">Remove permissions</vs-radio>
-      </li>
-    </ul>
-    <div class="modal-btn">
-      <vs-button color="danger" type="flat">Close</vs-button>
-      <vs-button color="success" type="flat">Save</vs-button>
+  <vs-popup title="Change billing country" :active.sync="popupCountry">
+    <div class="centerx">
+      <div class="vx-row">
+        <div class="vx-col w-full md:full mb-base">
+          <div class="centerx mt-base">
+            <v-select v-model="BusinessInfo.BusinessCountryCode" placeholder="Existing Proxy" :options="country" />
+          </div>
+        </div>
+        <div class="modal-btn">
+          <vs-button @click="task('CabId', 'UpdateCab', 'Change billing country', BusinessInfo);popupCountry = false" color="success">Update</vs-button>
+        </div>
+      </div>
+    </div>
+  </vs-popup>
+  <vs-popup title="Rename" :active.sync="popupRename">
+    <div class="centerx">
+      <div class="vx-row">
+        <div class="vx-col w-full md:full mb-base">
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Name" v-model="BusinessInfo.BusinessName"/>
+          </div>
+        </div>
+        <div class="modal-btn">
+          <vs-button @click="task('CabId', 'UpdateCab', 'Rename', BusinessInfo);popupRename = false" color="success">Update</vs-button>
+        </div>
+      </div>
     </div>
   </vs-popup>
 </div>
@@ -209,16 +214,39 @@
 <script>
 import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
+import vSelect from 'vue-select'
+
 export default {
   data() {
     return {
       radios1: '1',
       value1:'',
+      popupCountry: false,
+      popupRename: false,
+      BusinessInfo: {
+        BusinessCountryCode: null,
+        BusinessName: null
+      },
+      countrydata:null,
+      country:[
+        {
+        'label': 'Russia',
+        'id': 1
+        }
+      ],
+      cardfull: null,
+      addCard:{
+        CardNumber: null,
+        CardExpiryMonth: null,
+        CardExpiryYear: null,
+        CardCsc: null,
+      },
       addUser: false,
       share: false,
       select2:2,
       userinfo: false,
       changePass: false,
+      popupCard: false,
       user: 
         {
           name: '',
@@ -228,6 +256,7 @@ export default {
         }
       ,
       deleted:false,
+      selectedId: null,
       selected: [],
       date: null,
       configdateTimePicker: {
@@ -292,13 +321,36 @@ export default {
       this.user.name = name
       this.user.login = login
     },
-  },
-  components: {
-      flatPickr
+    changeName(){
+      this.BusinessInfo.BusinessName = this.selected[0].account.facebookName
+      this.popupRename = true
+
+    },
+    task(idtype, type, title, param){
+      this.$store.dispatch('acc/task', {
+          selectedId: this.selectedId,
+          idtype,      
+          type,
+          title,
+          param
+      })
+    }
   },
   watch: {
     selected: function (val) {
       this.count = val.length
+      this.selectedId = this.selected.map(account => account.id)
+      console.log(this.selectedId)
+    },
+  },
+  components: {
+      flatPickr,
+      vSelect
+  },
+  watch: {
+    selected: function (val) {
+      this.count = val.length
+      this.selectedId = this.selected.map(account => account.id)
     }
   }
 }
