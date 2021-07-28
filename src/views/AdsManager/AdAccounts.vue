@@ -53,7 +53,7 @@
       </li> -->
       <li>
         <vx-tooltip color="primary" text="Update FB data" position="bottom">
-          <vs-button size="small" icon-pack="feather" icon="icon-refresh-ccw" />
+          <vs-button @click="task('CabId', 'Update FB Data', [{'type': 'GetCabs'},{'type': 'GetCampaigns'},{'type': 'GetAdsets'},{'type': 'GetAds'}])" size="small" icon-pack="feather" icon="icon-refresh-ccw" />
         </vx-tooltip>
       </li>
       <!-- <li>
@@ -326,13 +326,12 @@ export default {
       this.popupRename = true
 
     },
-    task(idtype, type, title, param){
+    task(idtype, title, data){
       this.$store.dispatch('acc/task', {
           selectedId: this.selectedId,
           idtype,      
-          type,
           title,
-          param
+          data
       })
     }
   },

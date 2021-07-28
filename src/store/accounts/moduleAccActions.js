@@ -9,9 +9,7 @@ export default {
         axios.post(process.env.VUE_APP_API_ROOT + '/task', {          
             "idType": task.idtype,
             'ids': task.selectedId,
-            "tasks": [
-                {"type": task.type}
-            ]     
+            "tasks": task.data   
         }, { headers })
         .then(function (response) {
             commit('ADD_PROCESS', new Progress(task.title))
@@ -65,5 +63,5 @@ export default {
                 text: 'You have been logged in!'
             })
         });       
-    }
+    },
 }

@@ -58,7 +58,7 @@
       </li> -->
       <li>
         <vx-tooltip color="primary" text="Update FB data" position="bottom">
-          <vs-button size="small" icon-pack="feather" icon="icon-refresh-ccw" />
+          <vs-button @click="task('AccountId', 'Update FB Data', [{'type': 'GetCabs'},{'type': 'GetCampaigns'},{'type': 'GetAdsets'},{'type': 'GetAds'}])" size="small" icon-pack="feather" icon="icon-refresh-ccw" />
         </vx-tooltip>
       </li>
       <!-- <li>
@@ -170,7 +170,7 @@
                 <div class="vx-row">
                   <div class="vx-col w-full md:w-1/2 mb-base">
                     <div class="centerx mt-base">
-                      <v-select v-model="proxySelected" placeholder="Existing Proxy" :options="$store.state.proxy" />
+                      <v-select v-model="proxySelected" label="name" placeholder="Existing Proxy" :options="$store.state.proxy" />
                     </div>
                     <div class="centerx mt-base">
                       <vs-input class="inputx w-full" placeholder="Name" v-model="add.proxy.name"/>
@@ -236,7 +236,7 @@
                 <div class="vx-row">
                   <div class="vx-col w-full md:w-1/2 mb-base">
                     <div class="centerx mt-base">
-                      <v-select v-model="proxySelected" placeholder="Existing Proxy" :options="$store.state.proxy" />
+                      <v-select v-model="proxySelected" label="name" placeholder="Existing Proxy" :options="$store.state.proxy" />
                     </div>
                     <div class="centerx mt-base">
                       <vs-input class="inputx w-full" placeholder="Name" v-model="add.proxy.name"/>
@@ -245,7 +245,7 @@
                       <vs-input class="inputx w-full" placeholder="Host" v-model="add.proxy.host"/>
                     </div>
                     <div class="centerx mt-base">
-                      <vs-input class="inputx w-full" placeholder="Login" v-model="add.proxy.login"/>
+                      <vs-input class="inputx w-full" placeholder="Login" v-model="add.proxy.username"/>
                     </div>
                   </div>
                   <div class="vx-col w-full md:w-1/2 mb-base">
@@ -253,7 +253,7 @@
                       <vs-input class="inputx w-full" placeholder="Quick input" v-model="add.proxy.quickInput"/>
                     </div>
                     <div class="centerx mt-base">
-                      <vs-input class="inputx w-full" placeholder="Type" v-model="add.proxy.type"/>
+                      <vs-input class="inputx w-full" placeholder="Type" v-model="add.proxy.proxyType"/>
                     </div>
                     <div class="centerx mt-base">
                       <vs-input class="inputx w-full" placeholder="Port" v-model="add.proxy.port"/>
@@ -276,7 +276,7 @@
       <div class="vx-row">
         <div class="vx-col w-full md:w-1/2 mb-base">
           <div class="centerx mt-base">
-            <v-select v-model="proxySelected" placeholder="Existing Proxy" :options="$store.state.proxy" />
+            <v-select v-model="proxySelected" label="name" placeholder="Existing Proxy" :options="$store.state.proxy" />
           </div>
           <div class="centerx mt-base">
             <vs-input class="inputx w-full" placeholder="Name" v-model="add.proxy.name"/>
@@ -412,12 +412,12 @@ export default {
       this.$store.dispatch('acc/updateAcc', this.add)
       this.popupEdit = false
     },
-    task(idtype, type, title){
+    task(idtype, title, data){
       this.$store.dispatch('acc/task', {
           selectedId: this.selectedId,
-          idtype,      
-          type,
-          title
+          idtype, 
+          title,
+          data
       })
       this.selected = []     
     },

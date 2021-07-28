@@ -64,7 +64,7 @@
       </li>
       <li>
         <vx-tooltip color="primary" text="Update FB data" position="bottom">
-          <vs-button size="small" icon-pack="feather" icon="icon-refresh-ccw" />
+          <vs-button @click="task('CampaignId', 'Update FB Data', [{'type': 'GetCampaigns'},{'type': 'GetAdsets'},{'type': 'GetAds'}])" size="small" icon-pack="feather" icon="icon-refresh-ccw" />
         </vx-tooltip>
       </li>
       <li>
@@ -261,6 +261,14 @@ export default {
     },
     validated(val){
       console.log('sda')
+    },
+    task(idtype, title, data){
+      this.$store.dispatch('acc/task', {
+          selectedId: this.selectedId,
+          idtype,      
+          title,
+          data
+      })
     }
   },
   components: {
