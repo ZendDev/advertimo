@@ -28,6 +28,13 @@ export default [
     i18n: "AdsManager",
   },
   {
+    url: "/vocabulary",
+    name: "Vocabulary",
+    slug: "/vocabulary",
+    icon: "BookOpenIcon",
+    i18n: "Vocabulary",
+  },
+  {
     url: "/auto-rules",
     name: "Auto-rules",
     slug: "/auto-rules",

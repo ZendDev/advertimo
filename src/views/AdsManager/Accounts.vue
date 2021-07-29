@@ -14,7 +14,7 @@
       </li> -->
       <li>
         <vx-tooltip color="primary" text="Check tokens" position="bottom">
-          <vs-button @click="task('AccountId', 'Me', 'Check Tokens')" :disabled="count == 0" size="small" icon-pack="feather" icon="icon-code" />
+          <vs-button @click="task('AccountId', 'Check Tokens', [{'type': 'Me'}])" :disabled="count == 0" size="small" icon-pack="feather" icon="icon-code" />
         </vx-tooltip>
       </li>
       <li>
@@ -25,8 +25,8 @@
     
           <vs-dropdown-menu>
 
-            <vs-dropdown-item @click="task('AccountId', 'InitializeCab', 'Init Personal Ad Account')">Init personal ad account</vs-dropdown-item>
-            <vs-dropdown-item @click="task('AccountId', 'AcceptRules', 'Accept Rules')">Accept rules</vs-dropdown-item>
+            <vs-dropdown-item @click="task('AccountId', 'Init Personal Ad Account', [{'type': 'InitializeCab'}])">Init personal ad account</vs-dropdown-item>
+            <vs-dropdown-item @click="task('AccountId', 'Accept Rules', [{'type': 'AcceptRules'}])">Accept rules</vs-dropdown-item>
             <vs-dropdown-item @click="popupProxy = true">Change proxy</vs-dropdown-item>
             <vs-dropdown-item divider>Create fan page</vs-dropdown-item>
             <!-- <vs-dropdown-item>Create BM</vs-dropdown-item>

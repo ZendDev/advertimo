@@ -226,7 +226,18 @@ const router = new Router({
               authorization
             ]
           }
-        }
+        },
+        {
+          path: '/vocabulary',
+          name: 'vocabulary',
+          component: () => import('./views/Vocabulary/Index.vue'), 
+          meta: {
+            rule: 'editor',
+            middleware: [
+              authorization
+            ]
+          }
+        },        
       ]
     },
     // =============================================================================
