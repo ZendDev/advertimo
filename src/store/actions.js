@@ -44,6 +44,48 @@ const actions = {
     }) 
   },
 
+  vocabulary({commit}){
+    axios.get(process.env.VUE_APP_API_ROOT + '/vocabularies', { 'headers': { Authorization: localStorage.accessToken } })
+    .then((response) => {
+      commit('SET_VOCABULARIES', response)
+    })    
+  },
+
+  addVocabulary({commit}, data){
+    axios.post(process.env.VUE_APP_API_ROOT + '/vocabulary', {          
+      'name': data.name,
+      'wordList': data.wordList   
+    }, { 'headers': { Authorization: localStorage.accessToken } })
+    .then(function (response) {
+      commit('ADD_VOCABULARY', data)
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+  },
+  updateVocabulary({commit}, data){
+    axios.put(process.env.VUE_APP_API_ROOT + '/vocabulary', {   
+      'id': data.id,       
+      'name': data.name,
+      'wordList': data.wordList   
+    }, { 'headers': { Authorization: localStorage.accessToken } })
+    .then(function (response) {
+        console.log(response)
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+  },
+  removeVocabulary({commit}, id){
+    axios.delete(process.env.VUE_APP_API_ROOT + `/vocabulary/${id}`, {
+      'headers': { Authorization: localStorage.accessToken }
+    }).then(function (response) {
+        commit('DELETE_VOCABULARY', id)
+    }).catch(function (error) {
+        console.log(error);
+    });
+  },
+
   // Vertical NavMenu
   updateVerticalNavMenuWidth ({ commit }, width) {
     commit('UPDATE_VERTICAL_NAV_MENU_WIDTH', width)

@@ -27,6 +27,16 @@ const mutations = {
   UPDATE_PROXY(state, res){
     state.proxy = res.data.data.items
   },
+  SET_VOCABULARIES(state, res){
+    state.vocabularies = res.data.data.items
+  },
+  ADD_VOCABULARIES(state, res){
+    state.vocabularies = res
+  },
+  DELETE_VOCABULARY(state, id){
+    let index = state.vocabularies.find(item => item.id == id)
+    state.vocabularies.splice(index, 1)
+  },
   // Vertical NavMenu
 
   TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE (state, value) {

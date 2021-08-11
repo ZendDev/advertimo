@@ -20,7 +20,7 @@
     </ul>
     <ul>
       <li>
-        <vs-button size="small" icon-pack="feather" icon="icon-plus">ADD VOCABULARY</vs-button>
+        <vs-button @click="popupVocabulary = true" size="small" icon-pack="feather" icon="icon-plus">ADD VOCABULARY</vs-button>
       </li>
       <!-- <li>
         <vs-button size="small" icon-pack="feather" icon="icon-filter">FILTERS</vs-button>
@@ -43,29 +43,67 @@
       </li>
     </ul>
   </div>
-  <vs-table multiple v-model="selected" pagination max-items="10" :data="$store.state.accounts">
+  <vs-table multiple v-model="selected" pagination max-items="10" :data="$store.state.vocabularies">
 
     <template slot="thead">
-      <vs-th sort-key="name">Name</vs-th>  
-      <vs-th sort-key="spend">Settings</vs-th> 
+      <vs-th sort-key="name">Name</vs-th> 
+      <vs-th sort-key="user">User</vs-th> 
+      <vs-th sort-key="settings">Settings</vs-th> 
     </template>
 
     <template slot-scope="{data}">
       <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-
         <vs-td :data="data[indextr].name">
-          <div class="flex align-center account-name accn">
-            <div class="name-user"> {{ data[indextr].name }}</div>
-          </div>
+            {{ data[indextr].name }}
         </vs-td>
 
-        <vs-td :data="data[indextr].spend">
-          0
+        <vs-td :data="data[indextr].user">
+          {{ data[indextr].user.username }}
         </vs-td>
 
+        <vs-td :data="data[indextr].settings">
+            <div class="flex">
+              <vs-button class="mr-2" @click="editVocabulary(data[indextr])" size="small" icon-pack="feather" icon="icon-edit" />
+              <vs-button @click="removeVocabulary(data[indextr].id)" size="small" icon-pack="feather" icon="icon-trash-2" />
+            </div>
+        </vs-td>
       </vs-tr>
     </template>
   </vs-table>
+  <vs-popup title="Добавить словарь" :active.sync="popupVocabulary">
+    <div class="centerx">
+      <div class="vx-row">
+        <div class="vx-col w-full md:full mb-base">
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Название словаря" v-model="vocabulary.name"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-textarea label="Access token" v-model="vocabulary.area" />
+          </div>
+        </div>
+        <div class="modal-btn">
+          <vs-button @click="addVocabulary" color="success">Add</vs-button>
+        </div>
+      </div>
+    </div>
+  </vs-popup>
+  <vs-popup title="Редактировать словарь" :active.sync="popupVocabularyedit">
+    <div class="centerx">
+      <div class="vx-row">
+        <div class="vx-col w-full md:full mb-base">
+          <div class="centerx mt-base">
+            <vs-input class="inputx w-full" placeholder="Название словаря" v-model="vocabulary.name"/>
+          </div>
+          <div class="centerx mt-base">
+            <vs-textarea label="Access token" v-model="vocabulary.area" />
+          </div>
+        </div>
+        <div class="modal-btn">
+          <vs-button @click="updateVocabulary" color="success">Edit</vs-button>
+        </div>
+      </div>
+    </div>
+  </vs-popup>
 </div>
 </template>
 
@@ -77,6 +115,15 @@ export default {
     return {
       search: '',
       selected: [],
+      popupVocabulary: false,
+      popupVocabularyedit: false,
+      vocedit: [],
+      vocabulary:{
+        id: null,
+        area:'',
+        name: '',
+        wordList: []
+      },
       selectedId: [],
       count: 0,
       'tableList': [
@@ -94,17 +141,30 @@ export default {
   },
   mounted(){
     this.$store.commit('SUBMENU_CHANGE', this.submenu)
+    this.$store.dispatch('vocabulary')
   }, 
   methods: {
-    task(idtype, title, data){
-      this.$store.dispatch('acc/task', {
-          selectedId: this.selectedId,
-          idtype, 
-          title,
-          data
-      })
-      this.selected = []     
+    addVocabulary(){
+      let arr = this.vocabulary.area.split('\n');
+      this.vocabulary.wordList = arr
+      this.$store.dispatch('addVocabulary', this.vocabulary)
+      this.popupVocabulary = false
     },
+    editVocabulary(data){
+      this.vocabulary.name = data.name
+      this.vocabulary.area = data.wordList.join('\n');
+      this.vocabulary.id = data.id
+      this.popupVocabularyedit = true
+    },
+    updateVocabulary(){
+      let arr = this.vocabulary.area.split('\n');
+      this.vocabulary.wordList = arr
+      this.$store.dispatch('updateVocabulary', this.vocabulary)
+      this.popupVocabularyedit = false     
+    },
+    removeVocabulary(id){
+      this.$store.dispatch('removeVocabulary', id)
+    }
   },
   components: {
       flatPickr

@@ -92,7 +92,8 @@ const state = {
   adaccounts: [],
   campaigns: [],
   adsets: [],
-  proxy: []
+  proxy: [],
+  vocabularies: []
 }
 
 export default state
